@@ -8,7 +8,7 @@ on:
 env:
   REGION_ID: cn-beijing
   REGISTRY: registry.cn-beijing.aliyuncs.com
-  NAMESPACE: namespace
+  NAMESPACE: oneflow
   IMAGE: repo
   TAG: ${{ github.sha }}
 
@@ -38,7 +38,9 @@ jobs:
           access-key-secret: "${{ secrets.ACCESS_KEY_SECRET }}"
 
       # 1.2 Buid and push image to ACR
-      - name: Build and push image to ACR
+      - name: Build image
         run: |
           docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE:$TAG" --build-arg TF_VERSION=${{matrix.tf-version}} .
+      - name: Push image to ACR
+        run: |
           docker push "$REGISTRY/$NAMESPACE/$IMAGE:$TAG"
