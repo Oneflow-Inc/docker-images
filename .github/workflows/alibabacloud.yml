@@ -25,7 +25,7 @@ jobs:
       run:
         working-directory: test-with-tf
     env:
-      IMAGE: test-with-tf
+      IMAGE: test-with-tf-${{matrix.tf-version}}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -41,7 +41,7 @@ jobs:
       # 1.2 Buid and push image to ACR
       - name: Build image
         run: |
-          docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE-${{matrix.tf-version}}:$TAG" --build-arg TF_VERSION=${{matrix.tf-version}} .
+          docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE:$TAG" --build-arg TF_VERSION=${{matrix.tf-version}} .
       - name: Push image to ACR
         run: |
           docker push "$REGISTRY/$NAMESPACE/$IMAGE:$TAG"
