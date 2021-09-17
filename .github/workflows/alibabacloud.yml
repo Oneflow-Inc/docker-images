@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 # Environment variables available to all jobs and steps in this workflow.
 env:
-  REGION_ID: cn-beijing
+  REGION_ID: cn-hangzhou
   REGISTRY: registry.cn-beijing.aliyuncs.com
   NAMESPACE: oneflow
   TAG: ${{ github.sha }}
