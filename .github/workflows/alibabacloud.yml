@@ -9,7 +9,6 @@ env:
   REGION_ID: cn-beijing
   REGISTRY: registry.cn-beijing.aliyuncs.com
   NAMESPACE: oneflow
-  IMAGE: repo
   TAG: ${{ github.sha }}
 
 jobs:
@@ -25,6 +24,8 @@ jobs:
     defaults:
       run:
         working-directory: test-with-tf
+    env:
+      IMAGE: test-with-tf
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -40,7 +41,7 @@ jobs:
       # 1.2 Buid and push image to ACR
       - name: Build image
         run: |
-          docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE:$TAG" --build-arg TF_VERSION=${{matrix.tf-version}} .
+          docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE-${{matrix.tf-version}}:$TAG" --build-arg TF_VERSION=${{matrix.tf-version}} .
       - name: Push image to ACR
         run: |
           docker push "$REGISTRY/$NAMESPACE/$IMAGE:$TAG"
