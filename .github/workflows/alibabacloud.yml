@@ -1,4 +1,4 @@
-name: Build and Deploy to ACK
+name: Build
 
 on:
   release:
