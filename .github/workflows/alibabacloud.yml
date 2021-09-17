@@ -40,5 +40,5 @@ jobs:
       # 1.2 Buid and push image to ACR
       - name: Build and push image to ACR
         run: |
-          docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE:$TAG" --build-arg TF_VERSION=${{matrix.tf-version}}.
+          docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE:$TAG" --build-arg TF_VERSION=${{matrix.tf-version}} .
           docker push "$REGISTRY/$NAMESPACE/$IMAGE:$TAG"
