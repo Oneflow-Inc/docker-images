@@ -13,7 +13,8 @@ env:
   TAG: ${{ github.sha }}
 
 jobs:
-  build:
+  build-test-with-tf:
+    name: "Build test with TF"
     runs-on: ubuntu-latest
     environment: production
     strategy:
