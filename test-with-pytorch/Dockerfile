@@ -1,6 +1,17 @@
 ARG PYTORCH_VERSION
 ARG PIP_ARGS
 FROM pytorch/pytorch:${PYTORCH_VERSION}-cuda10.2-cudnn7-runtime
+
+ARG D_OFED_VERSION="5.0-2.1.8.0"
+ARG D_OS="ubuntu18.04"
+ARG D_ARCH="x86_64"
+ARG D_OFED_PATH="MLNX_OFED_LINUX-${D_OFED_VERSION}-${D_OS}-${D_ARCH}"
+
+ARG D_OFED_TARBALL_NAME="${D_OFED_PATH}.tgz"
+ARG D_OFED_BASE_URL="https://www.mellanox.com/downloads/ofed/MLNX_OFED-${D_OFED_VERSION}"
+ARG D_OFED_URL_PATH="${D_OFED_BASE_URL}/${D_OFED_TARBALL_NAME}"
+ARG D_WITHOUT_FLAGS="--without-rshim-dkms --without-iser-dkms --without-isert-dkms --without-srp-dkms --without-kernel-mft-dkms --without-mlnx-rdma-rxe-dkms"
+
 WORKDIR /root
 RUN set -x && \
     apt-get -yq update && \
