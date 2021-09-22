@@ -14,11 +14,10 @@ ARG D_WITHOUT_FLAGS="--without-rshim-dkms --without-iser-dkms --without-isert-dk
 
 WORKDIR /root
 RUN set -x && \
-    apt remove openmpi-common libfabric1 openmpi-bin librdmacm1:amd64 libopenmpi2 libopenmpi2:amd64 -y && \
     apt-get -yq update && \
-    apt-get -yq install curl perl && \
+    apt-get -yq install curl perl libcap2 && \
     (curl -sL ${D_OFED_URL_PATH} | tar -xzf -) && \
-    /root/${D_OFED_PATH}/mlnxofedinstall --user-space-only --without-fw-update --force ${D_WITHOUT_FLAGS} && \
+    /root/${D_OFED_PATH}/mlnxofedinstall --without-neohost-backend --user-space-only --without-fw-update --force ${D_WITHOUT_FLAGS} && \
     rm -rf /tmp/MLNX_OFED_LINUX* && \
     sed -i '/ESP_OFFLOAD_LOAD=yes/c\ESP_OFFLOAD_LOAD=no' /etc/infiniband/openib.conf && \
     cp /root/${D_OFED_PATH}/docs/scripts/openibd-post-start-configure-interfaces/post-start-hook.sh /etc/infiniband/post-start-hook.sh && \
