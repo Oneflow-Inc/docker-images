@@ -14,6 +14,7 @@ ARG D_WITHOUT_FLAGS="--without-rshim-dkms --without-iser-dkms --without-isert-dk
 
 WORKDIR /root
 RUN set -x && \
+    apt remove openmpi-common libfabric1 openmpi-bin librdmacm1:amd64 libopenmpi2 libopenmpi2:amd64 -y && \
     apt-get -yq update && \
     apt-get -yq install curl perl && \
     (curl -sL ${D_OFED_URL_PATH} | tar -xzf -) && \
