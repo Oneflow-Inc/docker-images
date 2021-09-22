@@ -13,14 +13,19 @@ env:
 
 jobs:
   build-test-with-pytorch:
-    name: "Build test with TF"
+    name: "Build test with pytorch"
     runs-on: ubuntu-latest
     environment: production
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        pytorch-version: [1.9.0]
     defaults:
       run:
         working-directory: test-with-pytorch
     env:
-      IMAGE: test-with-pytorch-${{matrix.tf-version}}
+      IMAGE: test-with-pytorch-${{matrix.pytorch-version}}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -36,7 +41,7 @@ jobs:
       # 1.2 Buid and push image to ACR
       - name: Build image
         run: |
-          docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE:$TAG" --build-arg TF_VERSION=${{matrix.tf-version}} .
+          docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE:$TAG" --build-arg PYTORCH_VERSION=${{matrix.pytorch-version}} .
       - name: Push image to ACR
         run: |
           docker push "$REGISTRY/$NAMESPACE/$IMAGE:$TAG"
