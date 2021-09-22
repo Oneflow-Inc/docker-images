@@ -20,7 +20,7 @@ jobs:
       fail-fast: false
       max-parallel: 5
       matrix:
-        tf-version: [2.1.0, 2.2.0, 2.3.0, 2.4.0]
+        tf-version: [2.3.0, 2.4.0]
     defaults:
       run:
         working-directory: test-with-tf
