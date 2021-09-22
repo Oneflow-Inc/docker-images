@@ -1,6 +1,6 @@
 ARG TF_VERSION
 ARG PIP_ARGS
-FROM tensorflow/tensorflow:${TF_VERSION}-gpu
+FROM registry.cn-beijing.aliyuncs.com/oneflow/test-with-tf-2.4.0:7e916cddfd5b01b6c55f14b5c205ec42a175d482
 
 ARG D_OFED_VERSION="5.0-2.1.8.0"
 ARG D_OS="ubuntu18.04"
@@ -22,7 +22,7 @@ RUN set -x && \
     sed -i '/ESP_OFFLOAD_LOAD=yes/c\ESP_OFFLOAD_LOAD=no' /etc/infiniband/openib.conf && \
     cp /root/${D_OFED_PATH}/docs/scripts/openibd-post-start-configure-interfaces/post-start-hook.sh /etc/infiniband/post-start-hook.sh && \
     chmod +x /etc/infiniband/post-start-hook.sh && \
-    apt-get -yq install iproute2 net-tools ifupdown linux-modules-$(uname -r) netplan.io gdb openssh-server openssh-client vim wget ffmpeg libsm6 libxext6 gdb gcc g++ make && \
+    apt-get -yq install iproute2 net-tools ifupdown netplan.io gdb openssh-server openssh-client vim wget ffmpeg libsm6 libxext6 gdb gcc g++ make && \
     rm -rf /root/${D_OFED_PATH} && \
     apt-get clean autoclean && \
     rm -rf /var/lib/apt/lists/*
