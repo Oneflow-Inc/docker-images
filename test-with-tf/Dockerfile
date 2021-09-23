@@ -1,6 +1,6 @@
 ARG TF_VERSION
 ARG PIP_ARGS
-FROM registry.cn-beijing.aliyuncs.com/oneflow/test-with-tf-2.4.0:7e916cddfd5b01b6c55f14b5c205ec42a175d482
+FROM tensorflow/tensorflow:${TF_VERSION}-gpu
 
 ARG D_OFED_VERSION="5.0-2.1.8.0"
 ARG D_OS="ubuntu18.04"
