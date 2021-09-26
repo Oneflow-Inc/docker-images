@@ -46,9 +46,12 @@ jobs:
           password: "${{ secrets.ACR_PASSWORD }}"
 
       # 1.2 Buid and push image to ACR
+      - name: Set env
+        run: |
+          echo FULL_TAG="$REGISTRY/$NAMESPACE/$IMAGE:$TAG" >> $GITHUB_ENV
       - name: Build image
         run: |
-          docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE:$TAG" --build-arg CUDA_VERSION=${{matrix.cuda-version}} --build-arg INSTALL_ONEFLOW_CMD="${{matrix.install-cmd}}" .
+          docker build --tag "${{ env.FULL_TAG }}" --build-arg CUDA_VERSION=${{matrix.cuda-version}} --build-arg INSTALL_ONEFLOW_CMD="${{matrix.install-cmd}}" .
       - name: Push image to ACR
         run: |
-          docker push "$REGISTRY/$NAMESPACE/$IMAGE:$TAG"
+          docker push "${{ env.FULL_TAG }}"
