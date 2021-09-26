@@ -1,0 +1,54 @@
+name: Build oneflow-nightly
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:
+# Environment variables available to all jobs and steps in this workflow.
+env:
+  REGION_ID: cn-beijing
+  REGISTRY: registry.cn-beijing.aliyuncs.com
+  NAMESPACE: oneflow
+
+jobs:
+  build-oneflow-nightly:
+    name: "Build test with pytorch"
+    runs-on: ubuntu-latest
+    environment: production
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        tag: ['10.2', '11.1.1']
+        include:
+          - cuda-version: '10.2'
+            install-cmd: python3 -m pip install -f https://staging.oneflow.info/branch/master/cu102 oneflow
+            tag-suffix: cuda10.2
+          - cuda-version: '11.1.1'
+            install-cmd: python3 -m pip install -f https://staging.oneflow.info/branch/master/cu111 oneflow
+            tag-suffix: cuda11.1
+    defaults:
+      run:
+        working-directory: oneflow-nightly
+    env:
+      IMAGE: oneflow
+      TAG: nightly-${{ matrix.tag-suffix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # 1.1 Login to ACR
+      - name: Login to ACR with the AccessKey pair
+        uses: aliyun/acr-login@v1
+        with:
+          login-server: https://registry.${{env.REGION_ID}}.aliyuncs.com
+          username: "${{ secrets.ACR_USERNAME }}"
+          password: "${{ secrets.ACR_PASSWORD }}"
+
+      # 1.2 Buid and push image to ACR
+      - name: Build image
+        run: |
+          docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE:$TAG" --build-arg CUDA_VERSION=${{matrix.cuda-version}} --build-arg INSTALL_ONEFLOW_CMD=${{matrix.install-cmd}} .
+      - name: Push image to ACR
+        run: |
+          docker push "$REGISTRY/$NAMESPACE/$IMAGE:$TAG"
