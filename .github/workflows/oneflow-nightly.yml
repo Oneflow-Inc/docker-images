@@ -19,14 +19,14 @@ jobs:
       fail-fast: false
       max-parallel: 5
       matrix:
-        tag: ['10.2', '11.1.1']
+        tag-suffix: ['cuda10.2', 'cuda11.1']
         include:
-          - cuda-version: '10.2'
+          - tag-suffix: 'cuda10.2'
+            cuda-version: '10.2'
             install-cmd: python3 -m pip install -f https://staging.oneflow.info/branch/master/cu102 oneflow
-            tag-suffix: cuda10.2
-          - cuda-version: '11.1.1'
+          - tag-suffix: 'cuda11.1'
+            cuda-version: '11.1.1'
             install-cmd: python3 -m pip install -f https://staging.oneflow.info/branch/master/cu111 oneflow
-            tag-suffix: cuda11.1
     defaults:
       run:
         working-directory: oneflow-nightly
