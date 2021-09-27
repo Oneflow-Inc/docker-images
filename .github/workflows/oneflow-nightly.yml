@@ -46,17 +46,29 @@ jobs:
           login-server: https://registry.${{env.REGION_ID}}.aliyuncs.com
           username: "${{ secrets.ACR_USERNAME }}"
           password: "${{ secrets.ACR_PASSWORD }}"
-
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       # 1.2 Buid and push image to ACR
       - name: Set env
         run: |
-          echo FULL_TAG="$REGISTRY/$NAMESPACE/$IMAGE:$TAG" >> $GITHUB_ENV
+          echo ACR_TAG="$REGISTRY/$NAMESPACE/$IMAGE:$TAG" >> $GITHUB_ENV
+          echo DOCKERHUB_TAG="oneflow-inc/$IMAGE:$TAG" >> $GITHUB_ENV
       - name: Build image
         run: |
-          docker build --tag "${{ env.FULL_TAG }}" --target official \
+          docker build --tag "${{ env.ACR_TAG }}" --target official \
             --build-arg CUDA_VERSION=${{matrix.cuda-version}} \
             --build-arg ONEFLOW_PIP_INDEX="${{matrix.ONEFLOW_PIP_INDEX}}" \
             --build-arg ONEFLOW_PACKAGE_NAME="${{matrix.ONEFLOW_PACKAGE_NAME}}" .
       - name: Push image to ACR
         run: |
-          docker push "${{ env.FULL_TAG }}"
+          docker push "${{ env.ACR_TAG }}"
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: ${{ env.DOCKERHUB_TAG }}
+          cache-from: type=registry,ref=${{ env.DOCKERHUB_TAG }}
+          cache-to: type=inline
