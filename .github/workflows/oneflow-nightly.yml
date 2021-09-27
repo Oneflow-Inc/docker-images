@@ -55,7 +55,7 @@ jobs:
       - name: Set env
         run: |
           echo ACR_TAG="$REGISTRY/$NAMESPACE/$IMAGE:$TAG" >> $GITHUB_ENV
-          echo DOCKERHUB_TAG="oneflow-inc/$IMAGE:$TAG" >> $GITHUB_ENV
+          echo DOCKERHUB_TAG="oneflowinc/$IMAGE:$TAG" >> $GITHUB_ENV
       - name: Build image
         run: |
           docker build --tag "${{ env.ACR_TAG }}" --target official \
