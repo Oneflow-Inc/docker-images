@@ -28,7 +28,7 @@ jobs:
             ONEFLOW_BUILD_TYPE: cu111
     defaults:
       run:
-        working-directory: oneflow-nightly
+        working-directory: oneflow
     env:
       IMAGE: oneflow
       TAG: nightly-${{ matrix.tag-suffix }}
