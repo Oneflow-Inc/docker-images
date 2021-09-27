@@ -65,8 +65,8 @@ jobs:
           target: official
           build-args: |
             CUDA_VERSION=${{matrix.cuda-version}}
-            ONEFLOW_PIP_INDEX="${{matrix.ONEFLOW_PIP_INDEX}}"
-            ONEFLOW_PACKAGE_NAME="${{matrix.ONEFLOW_PACKAGE_NAME}}"
+            ONEFLOW_PIP_INDEX=${{matrix.ONEFLOW_PIP_INDEX}}
+            ONEFLOW_PACKAGE_NAME=${{matrix.ONEFLOW_PACKAGE_NAME}}
           file: oneflow/Dockerfile
       - name: Push image to ACR
         run: |
