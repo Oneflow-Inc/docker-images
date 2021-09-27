@@ -32,6 +32,7 @@ jobs:
     env:
       IMAGE: oneflow
       TAG: nightly-${{ matrix.tag-suffix }}
+      DOCKER_BUILDKIT: 1
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -51,7 +52,7 @@ jobs:
           echo LATEST_TAG="$REGISTRY/$NAMESPACE/$IMAGE:latest" >> $GITHUB_ENV
       - name: Build image
         run: |
-          docker build --tag "${{ env.FULL_TAG }}" --target builder  --build-arg CUDA_VERSION=${{matrix.cuda-version}} --build-arg ONEFLOW_BUILD_TYPE="${{matrix.ONEFLOW_BUILD_TYPE}}" .
+          docker build --tag "${{ env.FULL_TAG }}" --target official --build-arg CUDA_VERSION=${{matrix.cuda-version}} --build-arg ONEFLOW_BUILD_TYPE="${{matrix.ONEFLOW_BUILD_TYPE}}" .
       - name: Push image to ACR
         run: |
           docker push "${{ env.FULL_TAG }}"
