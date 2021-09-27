@@ -41,10 +41,11 @@ ARG CUDA_VERSION=11.1
 ARG CUDA_CHANNEL=nvidia
 ARG INSTALL_CHANNEL=pytorch-nightly
 ENV CONDA_OVERRIDE_CUDA=${CUDA_VERSION}
-ARG ONEFLOW_BUILD_TYPE=cu111
+ARG ONEFLOW_PIP_INDEX=https://staging.oneflow.info/branch/master/cu111
+ARG ONEFLOW_PACKAGE_NAME=oneflow
 RUN /opt/conda/bin/conda install -c "${CUDA_CHANNEL}" -y python=${PYTHON_VERSION} "cudatoolkit=${CUDA_VERSION}" && \
     /opt/conda/bin/conda clean -ya
-RUN /opt/conda/bin/pip install install -f https://staging.oneflow.info/branch/master/${ONEFLOW_BUILD_TYPE} oneflow
+RUN /opt/conda/bin/pip install install -f ${ONEFLOW_PIP_INDEX} ${ONEFLOW_PACKAGE_NAME}
 
 
 FROM ${BASE_IMAGE} as official
