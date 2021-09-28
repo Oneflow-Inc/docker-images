@@ -54,7 +54,7 @@ jobs:
           set -ex
           echo ACR_TAG="$REGISTRY/$NAMESPACE/$IMAGE:$TAG" >> $GITHUB_ENV
           echo DOCKERHUB_TAG="oneflowinc/$IMAGE:$TAG" >> $GITHUB_ENV
-          DEV_VERSION=$(curl -s ${{ env.ONEFLOW_PIP_INDEX }} | grep -Eo 'dev(\d+)' | head -n 1)
+          DEV_VERSION=$(curl -s ${{ matrix.ONEFLOW_PIP_INDEX }} | grep -Eo 'dev(\d+)' | head -n 1)
           if [ -z "$DEV_VERSION" ]
           then
             exit 1
