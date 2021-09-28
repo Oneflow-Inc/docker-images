@@ -1,6 +1,8 @@
 name: Build oneflow-nightly
 
 on:
+  schedule:
+    - cron: "0 */2 * * *"
   release:
     types: [created]
   workflow_dispatch:
@@ -49,9 +51,11 @@ jobs:
       # 1.2 Buid and push image to ACR
       - name: Set env
         run: |
+          set -ex
           echo ACR_TAG="$REGISTRY/$NAMESPACE/$IMAGE:$TAG" >> $GITHUB_ENV
           echo DOCKERHUB_TAG="oneflowinc/$IMAGE:$TAG" >> $GITHUB_ENV
-          echo ONEFLOW_PACKAGE_NAME="oneflow==0.5.0.dev$(date '+%Y%m%d')" >> $GITHUB_ENV
+          VERSION=$(curl -s https://staging.oneflow.info/branch/master/cu111 | grep -Eo 'dev(\d+)' | head -n 1) # dev20210927
+          echo ONEFLOW_PACKAGE_NAME="oneflow==0.5.0.${VERSION}" >> $GITHUB_ENV
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
