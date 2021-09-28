@@ -54,13 +54,13 @@ jobs:
           echo ACR_TAG="$REGISTRY/$NAMESPACE/$IMAGE:$TAG" >> $GITHUB_ENV
           echo DOCKERHUB_TAG="oneflowinc/$IMAGE:$TAG" >> $GITHUB_ENV
           curl "${{ matrix.ONEFLOW_PIP_INDEX }}"
-          curl -s "${{ matrix.ONEFLOW_PIP_INDEX }}" | grep -Eo 'dev\d+' | head -n 1 | read DEV_VERSION
+          curl -s "https://staging.oneflow.info/branch/master/cu111" | grep -oh '[0-9.]*dev[0-9]*' | head -n 1 | read DEV_VERSION
           echo "DEV_VERSION: ${DEV_VERSION}"
           if [ -z "$DEV_VERSION" ]
           then
             exit 1
           fi
-          echo ONEFLOW_PACKAGE_NAME="oneflow==0.5.0.${DEV_VERSION}" >> $GITHUB_ENV
+          echo ONEFLOW_PACKAGE_NAME="oneflow==${DEV_VERSION}" >> $GITHUB_ENV
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
