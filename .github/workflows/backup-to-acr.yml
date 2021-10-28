@@ -1,0 +1,57 @@
+name: Build test-with-pytorch
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      from:
+        description: ""
+        default: "alpine/git"
+        required: false
+      new-tag:
+        description: ""
+        default: "alpine-git"
+        required: false
+# Environment variables available to all jobs and steps in this workflow.
+env:
+  REGION_ID: cn-beijing
+  REGISTRY: registry.cn-beijing.aliyuncs.com
+  NAMESPACE: oneflow
+  TAG: ${{ github.sha }}
+
+jobs:
+  build-test-with-pytorch:
+    name: "Build test with pytorch"
+    runs-on: ubuntu-latest
+    environment: production
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        pytorch-version: [1.9.0]
+    env:
+      FROM: ${{ github.event.inputs.from }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set env
+        run: |
+          NEW_TAG="$REGISTRY/$NAMESPACE/${{ github.event.inputs.new-tag }}"
+          echo "NEW_TAG=${NEW_TAG}" >> $GITHUB_ENV
+      # 1.1 Login to ACR
+      - name: Login to ACR with the AccessKey pair
+        uses: aliyun/acr-login@v1
+        with:
+          login-server: https://registry.${{env.REGION_ID}}.aliyuncs.com
+          username: "${{ secrets.ACR_USERNAME }}"
+          password: "${{ secrets.ACR_PASSWORD }}"
+
+      # 1.2 Buid and push image to ACR
+      - name: Pull and tag image
+        run: |
+          docker pull "${{env.FROM}}"
+          docker tag "${{env.FROM}}" ${{env.NEW_TAG}}
+      - name: Push image to ACR
+        run: |
+          docker push ${{env.NEW_TAG}}
