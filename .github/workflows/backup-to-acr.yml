@@ -19,8 +19,8 @@ env:
   TAG: ${{ github.sha }}
 
 jobs:
-  build-test-with-pytorch:
-    name: "Build test with pytorch"
+  back-up-to-acr:
+    name: "Backup image to ACR"
     runs-on: ubuntu-latest
     environment: production
     strategy:
