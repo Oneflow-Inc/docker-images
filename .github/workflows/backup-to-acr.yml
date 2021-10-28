@@ -1,4 +1,4 @@
-name: Build test-with-pytorch
+name: Backup to ACR
 
 on:
   workflow_dispatch:
