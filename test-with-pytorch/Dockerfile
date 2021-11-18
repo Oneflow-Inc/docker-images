@@ -1,6 +1,6 @@
 ARG PYTORCH_VERSION
 ARG PIP_ARGS
-FROM pytorch/pytorch:${PYTORCH_VERSION}-cuda10.2-cudnn7-runtime
+FROM pytorch/pytorch:${PYTORCH_TAG}
 
 ARG D_OFED_VERSION="5.0-2.1.8.0"
 ARG D_OS="ubuntu18.04"

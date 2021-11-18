@@ -20,12 +20,12 @@ jobs:
       fail-fast: false
       max-parallel: 5
       matrix:
-        pytorch-version: [1.10.0]
+        pytorch-tag: [1.9.0-cuda10.2-cudnn7-runtime, 1.10.0-cuda11.3-cudnn8-runtime]
     defaults:
       run:
         working-directory: test-with-pytorch
     env:
-      IMAGE: test-with-pytorch-${{matrix.pytorch-version}}
+      IMAGE: test-with-pytorch-${{matrix.pytorch-tag}}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -41,7 +41,7 @@ jobs:
       # 1.2 Buid and push image to ACR
       - name: Build image
         run: |
-          docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE:$TAG" --build-arg PYTORCH_VERSION=${{matrix.pytorch-version}} .
+          docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE:$TAG" --build-arg PYTORCH_TAG=${{matrix.pytorch-tag}} .
       - name: Push image to ACR
         run: |
           docker push "$REGISTRY/$NAMESPACE/$IMAGE:$TAG"
