@@ -65,9 +65,7 @@ RUN curl -fsSL -v -o ~/miniconda.sh -O  https://repo.anaconda.com/miniconda/Mini
 FROM conda as devcontainer
 WORKDIR /workspace
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
-    deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-13 main \
-    deb-src http://apt.llvm.org/bionic/ llvm-toolchain-bionic-13 main \
-    && conda install -c anaconda cudnn
+    bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
 
 ENV PATH /opt/conda/bin:$PATH
 ENV NVIDIA_VISIBLE_DEVICES all
