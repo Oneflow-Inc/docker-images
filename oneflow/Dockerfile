@@ -68,7 +68,8 @@ RUN curl -fsSL -v -o ~/miniconda.sh -O  https://repo.anaconda.com/miniconda/Mini
 FROM conda as devcontainer
 WORKDIR /workspace
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
-    apt install -y --no-install-recommends lsb-release wget software-properties-common && \
+    apt-get update && apt-get install -y --no-install-recommends \
+    lsb-release wget software-properties-common && \
     bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" &&  \
     rm -rf /var/lib/apt/lists/* && \
     conda install -c nvidia python=${PYTHON_VERSION} "cudatoolkit=${CUDA_VERSION}" cudnn && \
