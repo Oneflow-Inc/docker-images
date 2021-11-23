@@ -22,6 +22,8 @@ ARG D_OFED_BASE_URL="https://www.mellanox.com/downloads/ofed/MLNX_OFED-${D_OFED_
 ARG D_OFED_URL_PATH="${D_OFED_BASE_URL}/${D_OFED_TARBALL_NAME}"
 ARG D_WITHOUT_FLAGS="--without-rshim-dkms --without-iser-dkms --without-isert-dkms --without-srp-dkms --without-kernel-mft-dkms --without-mlnx-rdma-rxe-dkms"
 
+ARG CUDA_VERSION=11.1
+
 WORKDIR /root
 RUN set -x && \
     apt-get -yq update && \
@@ -66,7 +68,7 @@ FROM conda as devcontainer
 WORKDIR /workspace
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" \
-    && conda install -c nvidia cudnn
+    && conda install -c nvidia "cudatoolkit=${CUDA_VERSION}" cudnn
 
 ENV PATH /opt/conda/bin:$PATH
 ENV NVIDIA_VISIBLE_DEVICES all
@@ -75,7 +77,6 @@ ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
 
 FROM conda as conda-installs
 ARG PYTHON_VERSION=3.8
-ARG CUDA_VERSION=11.1
 ARG CUDA_CHANNEL=nvidia
 ENV CONDA_OVERRIDE_CUDA=${CUDA_VERSION}
 ARG ONEFLOW_PIP_INDEX=https://staging.oneflow.info/branch/master/cu111
