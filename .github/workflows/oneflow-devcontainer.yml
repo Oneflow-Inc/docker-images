@@ -1,0 +1,70 @@
+name: Build oneflow-devcontainer
+
+on:
+  schedule:
+    - cron: "0 */2 * * *"
+  release:
+    types: [created]
+  workflow_dispatch:
+# Environment variables available to all jobs and steps in this workflow.
+env:
+  REGION_ID: cn-beijing
+  REGISTRY: registry.cn-beijing.aliyuncs.com
+  NAMESPACE: oneflow
+
+jobs:
+  build-oneflow-devcontainer:
+    name: "Build test with pytorch"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        tag-suffix: ["cuda11.1"]
+        include:
+          - tag-suffix: "cuda11.1"
+            CUDA_VERSION: "11.1"
+            ONEFLOW_PIP_INDEX: https://staging.oneflow.info/branch/master/cu111
+    env:
+      IMAGE: oneflow
+      TAG: devcontainer-${{ matrix.tag-suffix }}
+      DOCKER_BUILDKIT: 1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # 1.1 Login to ACR
+      - name: Login to ACR with the AccessKey pair
+        uses: aliyun/acr-login@v1
+        with:
+          login-server: https://registry.${{env.REGION_ID}}.aliyuncs.com
+          username: "${{ secrets.ACR_USERNAME }}"
+          password: "${{ secrets.ACR_PASSWORD }}"
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # 1.2 Build and push image to ACR
+      - name: Set env
+        run: |
+          echo ACR_TAG="$REGISTRY/$NAMESPACE/$IMAGE:$TAG" >> $GITHUB_ENV
+          echo DOCKERHUB_TAG="oneflowinc/$IMAGE:$TAG" >> $GITHUB_ENV
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: |
+            ${{ env.DOCKERHUB_TAG }}
+            ${{ env.ACR_TAG }}
+          cache-from: type=registry,ref=${{ env.DOCKERHUB_TAG }}
+          cache-to: type=inline
+          target: devcontainer
+          build-args: |
+            CUDA_VERSION=${{matrix.CUDA_VERSION}}
+            ONEFLOW_PIP_INDEX=${{matrix.ONEFLOW_PIP_INDEX}}
+            ONEFLOW_PACKAGE_NAME=${{env.ONEFLOW_PACKAGE_NAME}}
+          file: oneflow/Dockerfile
+      - name: Push image to ACR
+        run: |
+          docker push "${{ env.ACR_TAG }}"

@@ -62,6 +62,18 @@ RUN curl -fsSL -v -o ~/miniconda.sh -O  https://repo.anaconda.com/miniconda/Mini
     /opt/conda/bin/conda install -y python=${PYTHON_VERSION} && \
     /opt/conda/bin/conda clean -ya
 
+FROM conda as devcontainer
+WORKDIR /workspace
+RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
+    deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-13 main \
+    deb-src http://apt.llvm.org/bionic/ llvm-toolchain-bionic-13 main \
+    && conda install -c anaconda cudnn
+
+ENV PATH /opt/conda/bin:$PATH
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
+ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
+
 FROM conda as conda-installs
 ARG PYTHON_VERSION=3.8
 ARG CUDA_VERSION=11.1
