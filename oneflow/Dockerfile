@@ -69,6 +69,7 @@ FROM conda as devcontainer
 WORKDIR /workspace
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" \
+    && rm -rf /var/lib/apt/lists/* && \
     && conda install -c nvidia python=${PYTHON_VERSION} "cudatoolkit=${CUDA_VERSION}" cudnn && \
     /opt/conda/bin/conda clean -ya
 
