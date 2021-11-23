@@ -66,7 +66,7 @@ FROM conda as devcontainer
 WORKDIR /workspace
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" \
-    && conda install -c anaconda cudnn
+    && conda install -c nvidia cudnn
 
 ENV PATH /opt/conda/bin:$PATH
 ENV NVIDIA_VISIBLE_DEVICES all
@@ -77,7 +77,6 @@ FROM conda as conda-installs
 ARG PYTHON_VERSION=3.8
 ARG CUDA_VERSION=11.1
 ARG CUDA_CHANNEL=nvidia
-ARG INSTALL_CHANNEL=pytorch-nightly
 ENV CONDA_OVERRIDE_CUDA=${CUDA_VERSION}
 ARG ONEFLOW_PIP_INDEX=https://staging.oneflow.info/branch/master/cu111
 ARG ONEFLOW_PACKAGE_NAME=oneflow
