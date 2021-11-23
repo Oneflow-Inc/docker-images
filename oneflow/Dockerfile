@@ -49,7 +49,7 @@ RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     curl \
     git \
     libjpeg-dev \
-    libpng-dev \
+    libpng-dev && \
     rm -rf /var/lib/apt/lists/*
 RUN /usr/sbin/update-ccache-symlinks
 RUN mkdir /opt/ccache && ccache --set-config=cache_dir=/opt/ccache
