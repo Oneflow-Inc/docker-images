@@ -65,7 +65,8 @@ RUN curl -fsSL -v -o ~/miniconda.sh -O  https://repo.anaconda.com/miniconda/Mini
 FROM conda as devcontainer
 WORKDIR /workspace
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
-    bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+    bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" \
+    && conda install -c anaconda cudnn
 
 ENV PATH /opt/conda/bin:$PATH
 ENV NVIDIA_VISIBLE_DEVICES all
