@@ -57,6 +57,7 @@ ENV PATH /opt/conda/bin:$PATH
 
 FROM dev-base as conda
 ARG PYTHON_VERSION=3.8
+ARG PYTHON_VERSION=3.8
 RUN curl -fsSL -v -o ~/miniconda.sh -O  https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh  && \
     chmod +x ~/miniconda.sh && \
     ~/miniconda.sh -b -p /opt/conda && \
@@ -68,7 +69,8 @@ FROM conda as devcontainer
 WORKDIR /workspace
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" \
-    && conda install -c nvidia "cudatoolkit=${CUDA_VERSION}" cudnn
+    && conda install -c nvidia python=${PYTHON_VERSION} "cudatoolkit=${CUDA_VERSION}" cudnn && \
+    /opt/conda/bin/conda clean -ya
 
 ENV PATH /opt/conda/bin:$PATH
 ENV NVIDIA_VISIBLE_DEVICES all
@@ -76,7 +78,6 @@ ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
 ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
 
 FROM conda as conda-installs
-ARG PYTHON_VERSION=3.8
 ARG CUDA_CHANNEL=nvidia
 ENV CONDA_OVERRIDE_CUDA=${CUDA_VERSION}
 ARG ONEFLOW_PIP_INDEX=https://staging.oneflow.info/branch/master/cu111
