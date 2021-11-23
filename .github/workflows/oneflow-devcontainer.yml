@@ -24,7 +24,6 @@ jobs:
         include:
           - tag-suffix: "cuda11.1"
             CUDA_VERSION: "11.1"
-            ONEFLOW_PIP_INDEX: https://staging.oneflow.info/branch/master/cu111
     env:
       IMAGE: oneflow
       TAG: devcontainer-${{ matrix.tag-suffix }}
