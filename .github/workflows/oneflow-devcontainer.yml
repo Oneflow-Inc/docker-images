@@ -21,8 +21,8 @@ jobs:
           - tag-suffix: "cuda11.1"
             CUDA_VERSION: "11.1"
     env:
-      IMAGE: oneflow
-      TAG: devcontainer-${{ matrix.tag-suffix }}
+      IMAGE: oneflow-dev
+      TAG: ${{ matrix.tag-suffix }}
       DOCKER_BUILDKIT: 1
     steps:
       - name: Checkout
