@@ -45,7 +45,7 @@ RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     build-essential \
     ca-certificates \
     ccache \
-    ninja \
+    ninja-build \
     curl \
     git \
     libopenblas-dev  \
