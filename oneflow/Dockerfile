@@ -47,6 +47,7 @@ RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     ccache \
     ninja-build \
     curl \
+    wget \
     git \
     libopenblas-dev  \
     libjpeg-dev \
