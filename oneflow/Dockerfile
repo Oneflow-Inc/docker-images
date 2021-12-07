@@ -41,6 +41,7 @@ RUN set -x && \
 
 FROM ${BASE_IMAGE} as dev-base
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
+    apt-get update && apt-get install -y --no-install-recommends lsb-release software-properties-common && \
     apt-add-repository "deb https://apt.kitware.com/ubuntu/ $(lsb_release -cs) main" && \
     apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
