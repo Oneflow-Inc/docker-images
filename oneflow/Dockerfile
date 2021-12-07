@@ -46,13 +46,15 @@ RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     ca-certificates \
     ccache \
     ninja \
-    cmake \
     curl \
     git \
     libopenblas-dev  \
     libjpeg-dev \
     libpng-dev && \
     rm -rf /var/lib/apt/lists/*
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.22.0/cmake-3.22.0-linux-x86_64.sh && \
+    bash cmake-3.22.0-linux-x86_64.sh --skip-license && \
+    rm cmake-3.22.0-linux-x86_64.sh
 RUN /usr/sbin/update-ccache-symlinks
 RUN mkdir /opt/ccache && ccache --set-config=cache_dir=/opt/ccache
 ENV PATH /opt/conda/bin:$PATH
