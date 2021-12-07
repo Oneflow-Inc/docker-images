@@ -24,8 +24,8 @@ jobs:
             build-target: devcontainer-cuda
           - tag-suffix: "llvm12"
             CUDA_VERSION: ""
-            build-target: devcontainer-llvm
             LLVM_VERSION: 12
+            build-target: devcontainer-llvm
     env:
       IMAGE: devcontainer
       TAG: ${{ matrix.tag-suffix }}
