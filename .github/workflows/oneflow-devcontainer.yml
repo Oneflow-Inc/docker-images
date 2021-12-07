@@ -10,7 +10,7 @@ env:
 
 jobs:
   build-oneflow-devcontainer:
-    name: "Build test with pytorch"
+    name: "Build devcontainer"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
