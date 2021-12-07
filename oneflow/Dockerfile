@@ -41,13 +41,16 @@ RUN set -x && \
 
 FROM ${BASE_IMAGE} as dev-base
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
+    apt-add-repository "deb https://apt.kitware.com/ubuntu/ $(lsb_release -cs) main" && \
     apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     ca-certificates \
     ccache \
+    ninja \
     cmake \
     curl \
     git \
+    libopenblas-dev  \
     libjpeg-dev \
     libpng-dev && \
     rm -rf /var/lib/apt/lists/*
