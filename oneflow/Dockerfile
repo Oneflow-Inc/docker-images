@@ -87,8 +87,8 @@ RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     ninja-build libopenblas-dev nasm g++ gcc autoconf libtool lsb-release software-properties-common \
     gpg-agent && \
     wget https://apt.llvm.org/llvm.sh &&  \
-    ./llvm.sh 12 && \
     chmod +x llvm.sh &&  \
+    ./llvm.sh 12 && \
     rm llvm.sh &&  \
     rm -rf /var/lib/apt/lists/* && \
     conda install -c nvidia python=${PYTHON_VERSION} "cudatoolkit=${CUDA_VERSION}" cudnn && \
