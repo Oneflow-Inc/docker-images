@@ -16,10 +16,16 @@ jobs:
       fail-fast: false
       max-parallel: 5
       matrix:
-        tag-suffix: ["cuda11.1"]
+        tag-suffix: ["cuda11.1", "llvm12"]
         include:
           - tag-suffix: "cuda11.1"
             CUDA_VERSION: "11.1"
+            LLVM_VERSION: ""
+            build-target: devcontainer-cuda
+          - tag-suffix: "llvm12"
+            CUDA_VERSION: ""
+            build-target: devcontainer-llvm
+            LLVM_VERSION: 12
     env:
       IMAGE: devcontainer
       TAG: ${{ matrix.tag-suffix }}
@@ -54,9 +60,10 @@ jobs:
             ${{ env.ACR_TAG }}
           cache-from: type=registry,ref=${{ env.DOCKERHUB_TAG }}
           cache-to: type=inline
-          target: devcontainer
+          target: ${{ matrix.build-target }}
           build-args: |
             CUDA_VERSION=${{matrix.CUDA_VERSION}}
+            LLVM_VERSION=${{matrix.LLVM_VERSION}}
           file: oneflow/Dockerfile
       - name: Push image to ACR
         run: |
