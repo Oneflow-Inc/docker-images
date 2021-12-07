@@ -73,7 +73,7 @@ FROM conda as devcontainer
 WORKDIR /workspace
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     apt-get update && apt-get install -y --no-install-recommends \
-    ninja-build lsb-release libopenblas-dev software-properties-common \
+    ninja-build libopenblas-dev nasm g++ gcc autoconf libtool lsb-release software-properties-common \
     gpg-agent && \
     bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" &&  \
     rm -rf /var/lib/apt/lists/* && \
