@@ -88,7 +88,7 @@ RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     gpg-agent && \
     wget https://apt.llvm.org/llvm.sh &&  \
     chmod +x llvm.sh &&  \
-    ./llvm.sh 12 && \
+    ./llvm.sh ${LLVM_VERSION} && \
     rm llvm.sh &&  \
     rm -rf /var/lib/apt/lists/* && \
     conda install python=${PYTHON_VERSION} && \
