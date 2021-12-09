@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       max-parallel: 5
       matrix:
-        tag-suffix: ["cuda11.1", "llvm12"]
+        tag-suffix: ["cuda11.1", "llvm12", "llvm13"]
         include:
           - tag-suffix: "cuda11.1"
             CUDA_VERSION: "11.1"
