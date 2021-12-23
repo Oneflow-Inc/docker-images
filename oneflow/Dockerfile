@@ -89,7 +89,7 @@ RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     gpg-agent && \
     wget https://apt.llvm.org/llvm.sh &&  \
     chmod +x llvm.sh &&  \
-    ./llvm.sh ${LOCAL_LLVM_VERSION} && \
+    ./llvm.sh ${LLVM_VERSION} && \
     apt install -y libomp-${LOCAL_LLVM_VERSION}-dev && \
     rm llvm.sh &&  \
     rm -rf /var/lib/apt/lists/* && \
