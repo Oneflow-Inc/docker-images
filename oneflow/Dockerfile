@@ -22,6 +22,9 @@ ARG D_OFED_BASE_URL="https://www.mellanox.com/downloads/ofed/MLNX_OFED-${D_OFED_
 ARG D_OFED_URL_PATH="${D_OFED_BASE_URL}/${D_OFED_TARBALL_NAME}"
 ARG D_WITHOUT_FLAGS="--without-rshim-dkms --without-iser-dkms --without-isert-dkms --without-srp-dkms --without-kernel-mft-dkms --without-mlnx-rdma-rxe-dkms"
 
+ARG CUDA_VERSION=11.1
+ARG LLVM_VERSION=12
+
 WORKDIR /root
 RUN set -x && \
     apt-get -yq update && \
@@ -78,8 +81,7 @@ RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     /opt/conda/bin/conda clean -ya
 
 FROM conda as devcontainer-llvm
-ENV CUDA_VERSION=11.1
-ENV LLVM_VERSION=12
+ENV LOCAL_LLVM_VERSION=${LLVM_VERSION}
 WORKDIR /workspace
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     apt-get update && apt-get install -y --no-install-recommends \
@@ -87,12 +89,16 @@ RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     gpg-agent && \
     wget https://apt.llvm.org/llvm.sh &&  \
     chmod +x llvm.sh &&  \
-    ./llvm.sh ${LLVM_VERSION} && \
-    apt install -y libomp-${LLVM_VERSION}-dev && \
+    ./llvm.sh ${LOCAL_LLVM_VERSION} && \
+    apt install -y libomp-${LOCAL_LLVM_VERSION}-dev && \
     rm llvm.sh &&  \
     rm -rf /var/lib/apt/lists/* && \
     conda install python=${PYTHON_VERSION} && \
     /opt/conda/bin/conda clean -ya
+
+FROM conda as devcontainer-llvm
+
+RUN exit 1
 
 ENV PATH /opt/conda/bin:$PATH
 ENV NVIDIA_VISIBLE_DEVICES all
