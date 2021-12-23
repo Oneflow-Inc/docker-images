@@ -95,9 +95,6 @@ RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     rm -rf /var/lib/apt/lists/* && \
     conda install python=${PYTHON_VERSION} && \
     /opt/conda/bin/conda clean -ya
-
-FROM conda as devcontainer-llvm
-
 RUN exit 1
 
 ENV PATH /opt/conda/bin:$PATH
