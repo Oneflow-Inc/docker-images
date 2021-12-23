@@ -82,7 +82,6 @@ RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
 
 FROM conda as devcontainer-llvm
 ARG LLVM_VERSION=12
-ENV LOCAL_LLVM_VERSION=${LLVM_VERSION}
 WORKDIR /workspace
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     apt-get update && apt-get install -y --no-install-recommends \
@@ -90,8 +89,8 @@ RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     gpg-agent && \
     wget https://apt.llvm.org/llvm.sh &&  \
     chmod +x llvm.sh &&  \
-    ./llvm.sh ${LOCAL_LLVM_VERSION} && \
-    apt install -y libomp-${LOCAL_LLVM_VERSION}-dev && \
+    ./llvm.sh ${LLVM_VERSION} && \
+    apt install -y libomp-${LLVM_VERSION}-dev && \
     rm llvm.sh &&  \
     rm -rf /var/lib/apt/lists/* && \
     conda install python=${PYTHON_VERSION} && \
