@@ -22,8 +22,8 @@ ARG D_OFED_BASE_URL="https://www.mellanox.com/downloads/ofed/MLNX_OFED-${D_OFED_
 ARG D_OFED_URL_PATH="${D_OFED_BASE_URL}/${D_OFED_TARBALL_NAME}"
 ARG D_WITHOUT_FLAGS="--without-rshim-dkms --without-iser-dkms --without-isert-dkms --without-srp-dkms --without-kernel-mft-dkms --without-mlnx-rdma-rxe-dkms"
 
-ARG CUDA_VERSION=11.1
-ARG LLVM_VERSION=12
+ENV CUDA_VERSION=11.1
+ENV LLVM_VERSION=12
 
 WORKDIR /root
 RUN set -x && \
