@@ -24,6 +24,7 @@ ARG D_WITHOUT_FLAGS="--without-rshim-dkms --without-iser-dkms --without-isert-dk
 
 ARG CUDA_VERSION=11.1
 ARG LLVM_VERSION=12
+ARG LLVM_OMP_VERSION=12
 
 WORKDIR /root
 RUN set -x && \
@@ -89,7 +90,7 @@ RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     wget https://apt.llvm.org/llvm.sh &&  \
     chmod +x llvm.sh &&  \
     ./llvm.sh ${LLVM_VERSION} && \
-    apt install -y libomp\-${LLVM_VERSION}\-dev && \
+    apt install -y libomp\-${LLVM_OMP_VERSION}\-dev && \
     rm llvm.sh &&  \
     rm -rf /var/lib/apt/lists/* && \
     conda install python=${PYTHON_VERSION} && \

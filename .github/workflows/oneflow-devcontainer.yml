@@ -21,14 +21,17 @@ jobs:
           - tag-suffix: "cuda11.1"
             CUDA_VERSION: "11.1"
             LLVM_VERSION: ""
+            LLVM_OMP_VERSION: ""
             build-target: devcontainer-cuda
           - tag-suffix: "llvm12"
             CUDA_VERSION: ""
             LLVM_VERSION: 12
+            LLVM_OMP_VERSION: 12
             build-target: devcontainer-llvm
           - tag-suffix: "llvm13"
             CUDA_VERSION: ""
             LLVM_VERSION: 13
+            LLVM_OMP_VERSION: 13
             build-target: devcontainer-llvm
     env:
       IMAGE: devcontainer
