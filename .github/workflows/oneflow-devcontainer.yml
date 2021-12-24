@@ -31,7 +31,7 @@ jobs:
             LLVM_VERSION: 13
             build-target: devcontainer-llvm
     env:
-      IMAGE: devcontainer-testmu
+      IMAGE: devcontainer
       TAG: ${{ matrix.tag-suffix }}
       DOCKER_BUILDKIT: 1
     steps:
