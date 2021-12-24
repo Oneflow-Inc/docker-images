@@ -23,7 +23,6 @@ ARG D_OFED_URL_PATH="${D_OFED_BASE_URL}/${D_OFED_TARBALL_NAME}"
 ARG D_WITHOUT_FLAGS="--without-rshim-dkms --without-iser-dkms --without-isert-dkms --without-srp-dkms --without-kernel-mft-dkms --without-mlnx-rdma-rxe-dkms"
 
 ARG CUDA_VERSION=11.1
-ARG LLVM_VERSION=12
 
 WORKDIR /root
 RUN set -x && \
@@ -81,6 +80,7 @@ RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     /opt/conda/bin/conda clean -ya
 
 FROM conda as devcontainer-llvm
+ARG LLVM_VERSION=12
 WORKDIR /workspace
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     apt-get update && apt-get install -y --no-install-recommends \
