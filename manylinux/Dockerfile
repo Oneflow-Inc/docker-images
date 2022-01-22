@@ -16,6 +16,7 @@ ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig
 ARG MANYLINUX_SHA=99194b01f31f4e84853a83b77b4fccde8f6b1642
 RUN yum -y install unzip && curl -L -o manylinux.zip https://github.com/pypa/manylinux/archive/${MANYLINUX_SHA}.zip && \
     unzip -j manylinux.zip -d /manylinux-src && \
+    export PLATFORM=$(uname -m) POLICY=manylinux2014 COMMIT_SHA=${MANYLINUX_SHA}  && \
     bash /manylinux-src/build.sh && rm -r /manylinux-src manylinux.zip
 
 ENV SSL_CERT_FILE=/opt/_internal/certs.pem
