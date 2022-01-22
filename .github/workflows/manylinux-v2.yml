@@ -10,7 +10,7 @@ env:
 
 jobs:
   manylinux-v2:
-    name: "Build devcontainer"
+    name: "Build manylinux-v2"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
