@@ -57,7 +57,7 @@ jobs:
           target: ${{ matrix.build-target }}
           build-args: |
             BASE_IMAGE=${{matrix.BASE_IMAGE}}
-          file: oneflow/Dockerfile
+          file: manylinux/Dockerfile
       - name: Push image to ACR
         run: |
           docker push "${{ env.ACR_TAG }}"
