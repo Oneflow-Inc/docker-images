@@ -22,7 +22,7 @@ jobs:
             BASE_IMAGE: "nvidia/cuda:11.2.2-cudnn8-devel-centos7"
     env:
       IMAGE: manylinux-v2
-      TAG: ${{ matrix.tag-suffix }}
+      TAG: ${{ matrix.tag-suffix }}-${{ github.sha }}
       DOCKER_BUILDKIT: 1
     steps:
       - name: Checkout
