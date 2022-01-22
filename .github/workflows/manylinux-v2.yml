@@ -1,6 +1,9 @@
 name: Build manylinux-v2
 
 on:
+  push:
+    branches:
+      - "main"
   workflow_dispatch:
 # Environment variables available to all jobs and steps in this workflow.
 env:
