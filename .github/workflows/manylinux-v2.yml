@@ -1,0 +1,63 @@
+name: Build manylinux-v2
+
+on:
+  workflow_dispatch:
+# Environment variables available to all jobs and steps in this workflow.
+env:
+  REGION_ID: cn-beijing
+  REGISTRY: registry.cn-beijing.aliyuncs.com
+  NAMESPACE: oneflow
+
+jobs:
+  manylinux-v2:
+    name: "Build devcontainer"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        tag-suffix: ["cuda11.2"]
+        include:
+          - tag-suffix: "cuda11.2"
+            BASE_IMAGE: "nvidia/cuda:11.2.2-cudnn8-devel-centos7"
+    env:
+      IMAGE: manylinux-v2
+      TAG: ${{ matrix.tag-suffix }}
+      DOCKER_BUILDKIT: 1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # 1.1 Login to ACR
+      - name: Login to ACR with the AccessKey pair
+        uses: aliyun/acr-login@v1
+        with:
+          login-server: https://registry.${{env.REGION_ID}}.aliyuncs.com
+          username: "${{ secrets.ACR_USERNAME }}"
+          password: "${{ secrets.ACR_PASSWORD }}"
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # 1.2 Build and push image to ACR
+      - name: Set env
+        run: |
+          echo ACR_TAG="$REGISTRY/$NAMESPACE/$IMAGE:$TAG" >> $GITHUB_ENV
+          echo DOCKERHUB_TAG="oneflowinc/$IMAGE:$TAG" >> $GITHUB_ENV
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: |
+            ${{ env.DOCKERHUB_TAG }}
+            ${{ env.ACR_TAG }}
+          cache-from: type=registry,ref=${{ env.DOCKERHUB_TAG }}
+          cache-to: type=inline
+          target: ${{ matrix.build-target }}
+          build-args: |
+            BASE_IMAGE=${{matrix.BASE_IMAGE}}
+          file: oneflow/Dockerfile
+      - name: Push image to ACR
+        run: |
+          docker push "${{ env.ACR_TAG }}"
