@@ -73,7 +73,7 @@ FROM conda as devcontainer-cuda
 WORKDIR /workspace
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     apt-get update && apt-get install -y --no-install-recommends \
-    ninja-build libopenblas-dev nasm g++ gcc autoconf libtool lsb-release software-properties-common \
+    ninja-build libopenblas-dev nasm g++ gcc autoconf automake libtool lsb-release software-properties-common \
     gpg-agent && \
     rm -rf /var/lib/apt/lists/* && \
     conda install -c nvidia python=${PYTHON_VERSION} "cudatoolkit=${CUDA_VERSION}" cudnn && \
@@ -84,7 +84,7 @@ ARG LLVM_VERSION=12
 WORKDIR /workspace
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     apt-get update && apt-get install -y --no-install-recommends \
-    ninja-build libopenblas-dev nasm g++ gcc autoconf libtool lsb-release software-properties-common \
+    ninja-build libopenblas-dev nasm g++ gcc autoconf automake libtool lsb-release software-properties-common \
     gpg-agent && \
     wget https://apt.llvm.org/llvm.sh &&  \
     chmod +x llvm.sh &&  \
