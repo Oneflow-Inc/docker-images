@@ -10,6 +10,4 @@ RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     ./llvm.sh ${LLVM_VERSION} && \
     apt install -y libomp-${LLVM_VERSION}-dev && \
     rm llvm.sh &&  \
-    rm -rf /var/lib/apt/lists/* && \
-    conda install python=${PYTHON_VERSION} && \
-    /opt/conda/bin/conda clean -ya
+    rm -rf /var/lib/apt/lists/*
