@@ -69,4 +69,4 @@ jobs:
           cache-to: type=inline
           context: ./cuda-llvm
           build-args: |
-            BASEIMAGE
+            BASE_IMAGE
