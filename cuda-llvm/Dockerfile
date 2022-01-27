@@ -15,6 +15,7 @@ RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     libjpeg-dev \
     libpng-dev && \
     rm -rf /var/lib/apt/lists/* && \
+    cd /usr/local && \
     wget https://github.com/Kitware/CMake/releases/download/v3.22.0/cmake-3.22.0-linux-x86_64.sh && \
     bash cmake-3.22.0-linux-x86_64.sh --skip-license && \
     rm cmake-3.22.0-linux-x86_64.sh
