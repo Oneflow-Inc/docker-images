@@ -3,7 +3,7 @@ ARG BASE_IMAGE=nvidia/cuda:11.2.2-cudnn8-devel-ubuntu20.04
 FROM ${BASE_IMAGE} as dev-base
 
 ENV DEBIAN_FRONTEND=noninteractive
-
+WORKDIR /workspace
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
@@ -21,6 +21,7 @@ RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
 
 FROM dev-base as devcontainer-llvm
 ARG LLVM_VERSION=13
+WORKDIR /workspace
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     apt-get update && apt-get install -y --no-install-recommends \
     ninja-build libopenblas-dev nasm g++ gcc autoconf automake libtool lsb-release software-properties-common \
