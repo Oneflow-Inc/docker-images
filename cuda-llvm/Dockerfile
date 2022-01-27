@@ -3,7 +3,7 @@ ARG BASE_IMAGE=nvidia/cuda:11.2.2-cudnn8-devel-ubuntu20.04
 FROM ${BASE_IMAGE} as dev-base
 
 ENV DEBIAN_FRONTEND=noninteractive
-WORKDIR /workspace
+WORKDIR /root
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
