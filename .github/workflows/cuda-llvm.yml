@@ -31,7 +31,7 @@ jobs:
         tag-suffix: ["llvm13_cuda11.2"]
         include:
           - tag-suffix: "llvm13_cuda11.2"
-            BASE_IMAGE: "cuda:11.2.2-cudnn8-devel-ubuntu20.04"
+            BASE_IMAGE: "nvidia/cuda:11.2.2-cudnn8-devel-ubuntu20.04"
     env:
       DOCKER_REPO: "${{ matrix.tag-suffix }}"
     steps:
