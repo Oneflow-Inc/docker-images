@@ -24,7 +24,7 @@ ARG LLVM_VERSION=13
 WORKDIR /workspace
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     apt-get update && apt-get install -y --no-install-recommends \
-    python3-pip pninja-build libopenblas-dev nasm g++ gcc autoconf automake libtool lsb-release software-properties-common \
+    python3-pip ninja-build libopenblas-dev nasm g++ gcc autoconf automake libtool lsb-release software-properties-common \
     gpg-agent && \
     wget https://apt.llvm.org/llvm.sh &&  \
     chmod +x llvm.sh &&  \
