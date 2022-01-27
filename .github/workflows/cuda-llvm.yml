@@ -36,6 +36,7 @@ jobs:
             BASE_IMAGE: "nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04"
     env:
       DOCKER_REPO: "${{ matrix.tag-suffix }}"
+      BASE_IMAGE: "${{ matrix.BASE_IMAGE }}"
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -68,9 +69,4 @@ jobs:
           cache-to: type=inline
           context: ./cuda-llvm
           build-args: |
-            POLICY
-            PLATFORM
             BASEIMAGE
-            DEVTOOLSET_ROOTPATH
-            PREPEND_PATH
-            LD_LIBRARY_PATH_ARG
