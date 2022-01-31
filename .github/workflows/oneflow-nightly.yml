@@ -51,8 +51,6 @@ jobs:
       # 1.2 Buid and push image to ACR
       - name: Set env
         run: |
-          echo ACR_TAG="$REGISTRY/$NAMESPACE/$IMAGE:$TAG" >> $GITHUB_ENV
-          echo DOCKERHUB_TAG="oneflowinc/$IMAGE:$TAG" >> $GITHUB_ENV
           curl "${{ matrix.ONEFLOW_PIP_INDEX }}"
           DEV_VERSION=$(curl -s ${{ matrix.ONEFLOW_PIP_INDEX }} | grep -oh '[0-9.]*dev[0-9]*' | head -n 1)
           echo "DEV_VERSION: ${DEV_VERSION}"
@@ -61,12 +59,16 @@ jobs:
             exit 1
           fi
           echo ONEFLOW_PACKAGE_NAME="oneflow==${DEV_VERSION}" >> $GITHUB_ENV
+          echo ACR_TAG="$REGISTRY/$NAMESPACE/$IMAGE:$TAG" >> $GITHUB_ENV
+          echo DOCKERHUB_TAG="oneflowinc/$IMAGE:$TAG" >> $GITHUB_ENV
+          echo DOCKERHUB_DEV_VERSION_TAG="oneflowinc/$IMAGE:$DEV_VERSION" >> $GITHUB_ENV
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           push: true
           tags: |
             ${{ env.DOCKERHUB_TAG }}
+            ${{ env.DOCKERHUB_DEV_VERSION_TAG }}
             ${{ env.ACR_TAG }}
           cache-from: type=registry,ref=${{ env.DOCKERHUB_TAG }}
           cache-to: type=inline
