@@ -1,9 +1,6 @@
 name: Build CUDA LLVM
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
   # pull_request:
   #   paths:
