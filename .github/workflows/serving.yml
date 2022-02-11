@@ -20,7 +20,7 @@ jobs:
         working-directory: serving
     env:
       IMAGE: triton-devel
-      TRITON_CONTAINER_VERSION: 21.10
+      TRITON_CONTAINER_VERSION: "21.10"
     steps:
       - name: Checkout
         uses: actions/checkout@v2
