@@ -20,7 +20,7 @@ jobs:
         working-directory: serving
     env:
       IMAGE: triton-devel
-      TRITON_VERSION: 21.10
+      TRITON_CONTAINER_VERSION: 21.10
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -36,7 +36,7 @@ jobs:
       # 1.2 Buid and push image to ACR
       - name: Build image
         run: |
-          docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE" --build-arg TRITON_VERSION=${{ env.TRITON_VERSION }} .
+          docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE" --build-arg TRITON_CONTAINER_VERSION=${{ env.TRITON_CONTAINER_VERSION }} .
       - name: Push image to ACR
         run: |
           docker push "$REGISTRY/$NAMESPACE/$IMAGE"
