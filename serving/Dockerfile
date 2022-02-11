@@ -67,8 +67,8 @@ RUN wget https://oneflow-static.oss-cn-beijing.aliyuncs.com/tensorrt/nv-tensorrt
 
 
 WORKDIR /opt/tritonserver
-RUN rm -fr /opt/tritonserver/*
-COPY --chown=1000:1000 nvidia_entrypoint.sh .
+RUN rm -rf /opt/tritonserver/*
+COPY --chown=1000:1000 --from=full /opt/tritonserver/nvidia_entrypoint.sh .
 ENTRYPOINT ["/opt/tritonserver/nvidia_entrypoint.sh"]
 
 ENV NVIDIA_BUILD_ID 28453983
