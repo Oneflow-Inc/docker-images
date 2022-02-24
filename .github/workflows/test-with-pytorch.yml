@@ -40,9 +40,6 @@ jobs:
           echo ACR_TAG="$REGISTRY/$NAMESPACE/$IMAGE:${{ github.sha }}" >> $GITHUB_ENV
           echo DOCKERHUB_TAG="oneflowinc/$IMAGE:latest" >> $GITHUB_ENV
           echo DOCKERHUB_COMMIT_TAG="oneflowinc/$IMAGE:${{ github.sha }}" >> $GITHUB_ENV
-      - name: Push image to ACR
-        run: |
-          docker push "$REGISTRY/$NAMESPACE/$IMAGE:$TAG"
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
