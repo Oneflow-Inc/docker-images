@@ -11,3 +11,4 @@ protobuf>=3.9.2
 pillow
 tqdm
 requests
+pytest-xdist
