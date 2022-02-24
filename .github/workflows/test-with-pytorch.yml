@@ -7,8 +7,9 @@ on:
 # Environment variables available to all jobs and steps in this workflow.
 env:
   REGION_ID: cn-beijing
-  REGISTRY: registry.cn-beijing.aliyuncs.com
-  NAMESPACE: oneflow
+  ACR_REGISTRY: registry.cn-beijing.aliyuncs.com
+  ACR_NAMESPACE: oneflow
+  DOCKER_HUB_NAMESPACE: oneflowinc
 
 jobs:
   build-test-with-pytorch:
@@ -21,39 +22,31 @@ jobs:
       matrix:
         pytorch-tag: [1.9.0-cuda10.2-cudnn7-runtime, 1.10.0-cuda11.3-cudnn8-runtime]
     env:
-      IMAGE: test-with-pytorch-${{matrix.pytorch-tag}}
+      DOCKER_REPO: test-with-pytorch-${{matrix.pytorch-tag}}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      # 1.1 Login to ACR
       - name: Login to ACR with the AccessKey pair
         uses: aliyun/acr-login@v1
         with:
           login-server: https://registry.${{env.REGION_ID}}.aliyuncs.com
           username: "${{ secrets.ACR_USERNAME }}"
           password: "${{ secrets.ACR_PASSWORD }}"
-
-      # 1.2 Build and push image to ACR
-      - name: Set env
-        run: |
-          echo ACR_TAG="$REGISTRY/$NAMESPACE/$IMAGE:${{ github.sha }}" >> $GITHUB_ENV
-          echo DOCKERHUB_TAG="oneflowinc/$IMAGE:latest" >> $GITHUB_ENV
-          echo DOCKERHUB_COMMIT_TAG="oneflowinc/$IMAGE:${{ github.sha }}" >> $GITHUB_ENV
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           push: true
           tags: |
-            ${{ env.DOCKERHUB_TAG }}
-            ${{ env.DOCKERHUB_COMMIT_TAG }}
-            ${{ env.ACR_TAG }}
-          cache-from: type=registry,ref=${{ env.DOCKERHUB_TAG }}
+            ${{ env.DOCKER_HUB_NAMESPACE }}/${{ env.DOCKER_REPO }}:latest
+            ${{ env.DOCKER_HUB_NAMESPACE }}/${{ env.DOCKER_REPO }}:${{ github.sha }}
+            ${{ env.ACR_REGISTRY }}/${{ env.ACR_NAMESPACE }}/${{ env.DOCKER_REPO }}:latest
+            ${{ env.ACR_REGISTRY }}/${{ env.ACR_NAMESPACE }}/${{ env.DOCKER_REPO }}:${{ github.sha }}
+          cache-from: type=registry,ref=${{ env.DOCKER_HUB_NAMESPACE }}/${{ env.DOCKER_REPO }}:latest
           cache-to: type=inline
           context: test-with-pytorch
           build-args: |
