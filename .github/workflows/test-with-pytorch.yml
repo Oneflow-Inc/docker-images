@@ -9,7 +9,6 @@ env:
   REGION_ID: cn-beijing
   REGISTRY: registry.cn-beijing.aliyuncs.com
   NAMESPACE: oneflow
-  TAG: ${{ github.sha }}
 
 jobs:
   build-test-with-pytorch:
@@ -21,9 +20,6 @@ jobs:
       max-parallel: 5
       matrix:
         pytorch-tag: [1.9.0-cuda10.2-cudnn7-runtime, 1.10.0-cuda11.3-cudnn8-runtime]
-    defaults:
-      run:
-        working-directory: test-with-pytorch
     env:
       IMAGE: test-with-pytorch-${{matrix.pytorch-tag}}
     steps:
@@ -38,10 +34,25 @@ jobs:
           username: "${{ secrets.ACR_USERNAME }}"
           password: "${{ secrets.ACR_PASSWORD }}"
 
-      # 1.2 Buid and push image to ACR
-      - name: Build image
+      # 1.2 Build and push image to ACR
+      - name: Set env
         run: |
-          docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE:$TAG" --build-arg PYTORCH_TAG=${{matrix.pytorch-tag}} .
+          echo ACR_TAG="$REGISTRY/$NAMESPACE/$IMAGE:${{ github.sha }}" >> $GITHUB_ENV
+          echo DOCKERHUB_TAG="oneflowinc/$IMAGE:latest" >> $GITHUB_ENV
+          echo DOCKERHUB_COMMIT_TAG="oneflowinc/$IMAGE:${{ github.sha }}" >> $GITHUB_ENV
       - name: Push image to ACR
         run: |
           docker push "$REGISTRY/$NAMESPACE/$IMAGE:$TAG"
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: |
+            ${{ env.DOCKERHUB_TAG }}
+            ${{ env.DOCKERHUB_COMMIT_TAG }}
+            ${{ env.ACR_TAG }}
+          cache-from: type=registry,ref=${{ env.DOCKERHUB_TAG }}
+          cache-to: type=inline
+          context: test-with-pytorch
+          build-args: |
+            PYTORCH_TAG=${{matrix.pytorch-tag}}
