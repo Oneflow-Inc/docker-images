@@ -33,6 +33,8 @@ jobs:
             BASE_IMAGE: "openvino/ubuntu20_dev_no_samples"
           - tag-suffix: "openvino_ubuntu20_dev_no_samples_2021.4.2"
             BASE_IMAGE: "openvino/ubuntu20_dev_no_samples:2021.4.2"
+          - tag-suffix: "openvino_ubuntu18_dev_no_samples_2021.2"
+            BASE_IMAGE: "openvino/ubuntu18_dev_no_samples:2021.2"
     env:
       DOCKER_REPO: "${{ matrix.tag-suffix }}"
       BASE_IMAGE: "${{ matrix.BASE_IMAGE }}"
