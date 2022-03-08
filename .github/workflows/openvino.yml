@@ -31,7 +31,7 @@ jobs:
         include:
           - tag-suffix: "openvino_ubuntu20_dev_no_samples"
             BASE_IMAGE: "openvino/ubuntu20_dev_no_samples"
-          - tag-suffix: "ubuntu20_dev_no_samples:2021.4.2"
+          - tag-suffix: "openvino_ubuntu20_dev_no_samples_2021.4.2"
             BASE_IMAGE: "openvino/ubuntu20_dev_no_samples:2021.4.2"
     env:
       DOCKER_REPO: "${{ matrix.tag-suffix }}"
