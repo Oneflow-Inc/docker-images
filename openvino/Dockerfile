@@ -4,8 +4,7 @@ FROM ${BASE_IMAGE} as dev-base
 USER root
 ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /root
-RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
-    apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     ca-certificates \
     ccache \
@@ -20,8 +19,7 @@ RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     bash cmake-3.22.0-linux-x86_64.sh --skip-license && \
     rm cmake-3.22.0-linux-x86_64.sh
 
-RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
-    apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-pip python3-dev python3-setuptools python3-wheel ninja-build libopenblas-dev nasm g++ gcc autoconf automake libtool lsb-release software-properties-common \
     gpg-agent && \
     rm -rf /var/lib/apt/lists/*
