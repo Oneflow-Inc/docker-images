@@ -1,7 +1,7 @@
 ARG BASE_IMAGE=openvino/ubuntu20_dev_no_samples
 
 FROM ${BASE_IMAGE} as dev-base
-
+USER root
 ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /root
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
