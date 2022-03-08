@@ -68,6 +68,6 @@ jobs:
             ${{ env.ACR_REGISTRY }}/${{ env.ACR_NAMESPACE }}/${{ env.DOCKER_REPO }}:${{ github.sha }}
           cache-from: type=registry,ref=${{ env.DOCKER_HUB_NAMESPACE }}/${{ env.DOCKER_REPO }}:latest
           cache-to: type=inline
-          context: ./cuda-llvm
+          context: ./openvino
           build-args: |
             BASE_IMAGE
