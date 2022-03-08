@@ -2,6 +2,9 @@ name: Build OPENVINO dev image
 
 on:
   workflow_dispatch:
+  push:
+    branch:
+      - main
   # pull_request:
   #   paths:
   #     - ".github/workflows/build.yml"
@@ -25,10 +28,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tag-suffix: ["openvino_ubuntu20_dev_no_samples"]
         include:
           - tag-suffix: "openvino_ubuntu20_dev_no_samples"
             BASE_IMAGE: "openvino/ubuntu20_dev_no_samples"
+          - tag-suffix: "ubuntu20_dev_no_samples:2021.4.2"
+            BASE_IMAGE: "openvino/ubuntu20_dev_no_samples:2021.4.2"
     env:
       DOCKER_REPO: "${{ matrix.tag-suffix }}"
       BASE_IMAGE: "${{ matrix.BASE_IMAGE }}"
