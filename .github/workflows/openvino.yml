@@ -2,9 +2,6 @@ name: Build OPENVINO dev image
 
 on:
   workflow_dispatch:
-  push:
-    branch:
-      - main
   # pull_request:
   #   paths:
   #     - ".github/workflows/build.yml"
