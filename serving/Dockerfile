@@ -65,7 +65,7 @@ RUN wget https://oneflow-static.oss-cn-beijing.aliyuncs.com/tensorrt/nv-tensorrt
     rm -f nv-tensorrt-repo-ubuntu2004-cuda11.3-trt8.0.3.4-ga-20210831_1-1_amd64.deb
 
 # Install OpenVINO
-RUN wget https://oneflow-static.oss-cn-beijing.aliyuncs.com/tensorrt/nv-tensorrt-repo-ubuntu2004-cuda11.3-trt8.0.3.4-ga-20210831_1-1_amd64.deb && \
+RUN wget https://oneflow-static.oss-cn-beijing.aliyuncs.com/openvino/l_openvino_toolkit_p_2021.4.752.tgz && \
     tar -xvzf l_openvino_toolkit_p_2021.4.752.tgz && \
     cd l_openvino_toolkit_p_2021.4.752 && \
     sed -i 's/decline/accept/g' silent.cfg && \
