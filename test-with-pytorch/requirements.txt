@@ -14,3 +14,4 @@ pytest-xdist
 pytest-benchmark
 timm==0.4.5
 torchvision
+pygal
