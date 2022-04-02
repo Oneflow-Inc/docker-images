@@ -15,3 +15,4 @@ pytest-benchmark
 timm==0.4.5
 torchvision
 pygal
+scikit-learn==1.0.2
