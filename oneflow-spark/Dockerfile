@@ -3,7 +3,8 @@ FROM oneflowinc/oneflow:nightly-cuda11.2
 RUN apt-get update && \
     apt-get install -y apt-transport-https && \
     apt-get install -y --no-install-recommends
-RUN apt install scala git
+RUN apt install git
+RUN apt install scala
 RUN apt install default-jdk 
 
     # openjdk-11-jdk
