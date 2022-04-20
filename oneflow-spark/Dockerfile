@@ -3,7 +3,8 @@ FROM oneflowinc/oneflow:nightly-cuda11.2
 RUN apt-get update && \
     apt-get install -y apt-transport-https && \
     apt-get install -y --no-install-recommends && \
-    apt install default-jdk scala git
+    apt install default-jdk 
+RUN apt install scala git
 
     # openjdk-11-jdk
 RUN wget https://dlcdn.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz \
