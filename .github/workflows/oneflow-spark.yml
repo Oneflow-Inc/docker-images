@@ -7,7 +7,7 @@ on:
       - "dev-oneflow-spark"
 
 concurrency:
-  group: llvm-cuda-${{ github.ref }}
+  group: oneflow-spark-${{ github.ref }}
   cancel-in-progress: true
 
 env:
