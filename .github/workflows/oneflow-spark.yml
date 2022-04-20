@@ -23,9 +23,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tag-suffix: ["oneflow-spark:cuda11.2"]
+        tag-suffix: ["oneflow-spark-cuda11.2"]
         include:
-          - tag-suffix: "oneflow-spark:cuda11.2"
+          - tag-suffix: "oneflow-spark-cuda11.2"
             BASE_IMAGE: "oneflowinc/oneflow:nightly-cuda11.2"
     env:
       DOCKER_REPO: "${{ matrix.tag-suffix }}"
