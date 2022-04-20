@@ -12,3 +12,5 @@ RUN wget https://dlcdn.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tg
 ENV SPARK_HOME="/opt/spark"
 ENV PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
 
+RUN pip3 install petastorm psutil
+
