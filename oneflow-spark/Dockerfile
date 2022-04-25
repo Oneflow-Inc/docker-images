@@ -1,2 +1,16 @@
 FROM oneflowinc/oneflow:nightly-cuda11.2
-# TODO: for xie xuan to add more here...
+
+RUN apt-get update && \
+    apt-get install -y apt-transport-https && \
+    apt-get install -y --no-install-recommends && \
+    apt install -y scala default-jdk git
+
+RUN wget https://dlcdn.apache.org/spark/spark-3.2.1/spark-3.2.1-bin-hadoop3.2.tgz \
+    && tar xvf spark-3.2.1-bin-hadoop3.2.tgz \
+    && mv spark-3.2.1-bin-hadoop3.2 /opt/spark
+
+ENV SPARK_HOME="/opt/spark"
+ENV PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
+
+RUN pip3 install petastorm psutil
+
