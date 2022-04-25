@@ -22,6 +22,7 @@ RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
 
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     apt-get update && apt-get install -y --no-install-recommends \
+    lld \
     python3-pip python3-dev python3-setuptools python3-wheel ninja-build libopenblas-dev nasm g++ gcc autoconf automake libtool lsb-release software-properties-common \
     gpg-agent && \
     rm -rf /var/lib/apt/lists/*
