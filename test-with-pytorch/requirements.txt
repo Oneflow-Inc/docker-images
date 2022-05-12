@@ -6,7 +6,7 @@ pycocotools
 opencv-python==4.2.0.34
 scipy
 # oneflow
-protobuf>=3.9.2, <0.4
+protobuf>=3.9.2, <4.0
 pillow
 tqdm
 requests
