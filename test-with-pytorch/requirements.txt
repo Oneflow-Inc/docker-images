@@ -18,3 +18,4 @@ timm==0.5.4
 torchvision
 pygal
 scikit-learn==1.0.2
+pynvml
