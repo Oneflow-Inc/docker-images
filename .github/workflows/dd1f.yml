@@ -73,5 +73,6 @@ jobs:
           cache-from: type=registry,ref=${{ env.DOCKER_HUB_NAMESPACE }}/${{ env.DOCKER_REPO }}:latest
           cache-to: type=inline
           context: ./dd1f_src/docker/main
+          file: ./dd1f_src/docker/main/oneflow.dockerfile
           build-args: |
             BASE_IMAGE=${{ env.DOCKER_HUB_NAMESPACE }}/disco-diffusion-prep:${{ github.sha }}
