@@ -32,6 +32,7 @@ jobs:
         with:
           repository: Oneflow-Inc/dd1f
           path: dd1f_src
+          ref: 1f-impl
       # 1.1 Login to ACR
       - name: Login to ACR with the AccessKey pair
         uses: aliyun/acr-login@v1
@@ -72,3 +73,4 @@ jobs:
           cache-from: type=registry,ref=${{ env.DOCKER_HUB_NAMESPACE }}/${{ env.DOCKER_REPO }}:latest
           cache-to: type=inline
           context: ./dd1f_src/docker/main
+          file: oneflow.dockerfile
