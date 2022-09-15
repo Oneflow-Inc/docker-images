@@ -60,7 +60,7 @@ jobs:
           cache-from: type=registry,ref=${{ env.DOCKER_HUB_NAMESPACE }}/disco-diffusion-prep:latest
           cache-to: type=inline
           context: ./dd1f_src/docker/prep
-          file: oneflow.dockerfile
+          file: ./dd1f_src/docker/prep/oneflow.dockerfile
 
       - name: Build and push (main)
         uses: docker/build-push-action@v2
