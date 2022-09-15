@@ -49,17 +49,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Build and push (prep, don't push)
-        uses: docker/build-push-action@v2
-        with:
-          push: false
-          tags: |
-            disco-diffusion-prep:5.1
-          cache-from: type=registry,ref=${{ env.DOCKER_HUB_NAMESPACE }}/disco-diffusion-prep:latest
-          cache-to: type=inline
-          context: ./dd1f_src/docker/prep
-          file: ./dd1f_src/docker/prep/oneflow.dockerfile
-
       - name: Build and push (prep)
         uses: docker/build-push-action@v2
         with:
@@ -84,3 +73,5 @@ jobs:
           cache-from: type=registry,ref=${{ env.DOCKER_HUB_NAMESPACE }}/${{ env.DOCKER_REPO }}:latest
           cache-to: type=inline
           context: ./dd1f_src/docker/main
+          build-args: |
+            BASE_IMAGE=${{ env.DOCKER_HUB_NAMESPACE }}/disco-diffusion-prep:${{ github.sha }}
