@@ -2,7 +2,6 @@ server {
 
     listen       80;
     server_tokens off;
-    disable_symlinks off;
 
     # special url for external healthchecks (monitoring systems, AWS Route 53 healthchecks, ALB etc)
     location = /health {
@@ -13,6 +12,7 @@ server {
 
     location / {
        alias /mnt/data/;
+       disable_symlinks off;
        expires -1;
        autoindex on;
        default_type text/plain;
