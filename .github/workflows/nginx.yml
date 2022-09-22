@@ -13,7 +13,7 @@ env:
 
 jobs:
   build-nginx:
-    name: "Build test with TF"
+    name: "Build test with Nginx"
     runs-on: ubuntu-latest
     environment: production
     strategy:
