@@ -1,4 +1,4 @@
-name: Build serving
+name: Build nginx
 
 on:
   release:
@@ -9,18 +9,21 @@ env:
   REGION_ID: cn-beijing
   REGISTRY: registry.cn-beijing.aliyuncs.com
   NAMESPACE: oneflow
+  TAG: ${{ github.sha }}
 
 jobs:
-  build-serving:
-    name: "Build Serving"
+  build-nginx:
+    name: "Build test with TF"
     runs-on: ubuntu-latest
     environment: production
+    strategy:
+      fail-fast: false
+      max-parallel: 5
     defaults:
       run:
-        working-directory: serving
+        working-directory: nginx
     env:
-      IMAGE: triton-devel
-      TRITON_CONTAINER_VERSION: "21.10"
+      IMAGE: nginx
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -29,14 +32,14 @@ jobs:
       - name: Login to ACR with the AccessKey pair
         uses: aliyun/acr-login@v1
         with:
-          login-server: https://registry.${{ env.REGION_ID }}.aliyuncs.com
+          login-server: https://registry.${{env.REGION_ID}}.aliyuncs.com
           username: "${{ secrets.ACR_USERNAME }}"
           password: "${{ secrets.ACR_PASSWORD }}"
 
       # 1.2 Buid and push image to ACR
       - name: Build image
         run: |
-          docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE" .
+          docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE:$TAG" --build-arg TF_VERSION=${{matrix.tf-version}} .
       - name: Push image to ACR
         run: |
-          docker push "$REGISTRY/$NAMESPACE/$IMAGE"
+          docker push "$REGISTRY/$NAMESPACE/$IMAGE:$TAG"
