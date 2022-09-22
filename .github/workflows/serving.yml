@@ -36,7 +36,7 @@ jobs:
       # 1.2 Buid and push image to ACR
       - name: Build image
         run: |
-          docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE" .
+          docker build --tag "$REGISTRY/$NAMESPACE/$IMAGE" --build-arg TRITON_CONTAINER_VERSION=${{ env.TRITON_CONTAINER_VERSION }} .
       - name: Push image to ACR
         run: |
           docker push "$REGISTRY/$NAMESPACE/$IMAGE"
