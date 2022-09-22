@@ -1,11 +1,9 @@
 name: Build nginx
 
 on:
-  push
-  # release:
-  #   types: [created]
-  workflow_dispatch:
-# Environment variables available to all jobs and steps in this workflow.
+  pull_request:
+    types: [opened, labeled, unlabeled, synchronize]
+
 env:
   REGION_ID: cn-beijing
   REGISTRY: registry.cn-beijing.aliyuncs.com
