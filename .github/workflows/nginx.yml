@@ -6,9 +6,9 @@ on:
 
 env:
   REGION_ID: cn-beijing
-  REGISTRY: registry.cn-beijing.aliyuncs.com
-  NAMESPACE: oneflow
-  TAG: ${{ github.sha }}
+  ACR_REGISTRY: registry.cn-beijing.aliyuncs.com
+  ACR_NAMESPACE: oneflow
+  DOCKER_HUB_NAMESPACE: oneflowinc
 
 jobs:
   build-nginx:
@@ -18,15 +18,11 @@ jobs:
     strategy:
       fail-fast: false
       max-parallel: 5
-    defaults:
-      run:
-        working-directory: nginx
     env:
-      IMAGE: nginx
+      DOCKER_REPO: nginx
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
       - name: Login to ACR with the AccessKey pair
         uses: aliyun/acr-login@v1
         with:
