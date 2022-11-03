@@ -60,6 +60,7 @@ jobs:
       #     ref: oneflow-fork
       #     path: transformers
       - run: ls -al
+      - run: sudo apt-get install ripgrep
       # 1.1 Login to ACR
       - name: Login to ACR with the AccessKey pair
         uses: aliyun/acr-login@v1
@@ -81,7 +82,7 @@ jobs:
         id: get-oneflow-version
         run: |
           curl "${{ matrix.image.ONEFLOW_PIP_INDEX }}"
-          DEV_VERSION=$(curl -s ${{ matrix.image.ONEFLOW_PIP_INDEX }} | grep -oh '[0-9.]*dev[0-9]*' | head -n 1)
+          DEV_VERSION=$(curl "https://staging.oneflow.info/branch/release/debug-sd-conv/cu116" | rg '/(oneflow-\d.+?)%2B(.+?)-cp' -or '$1+${2}')
           echo "DEV_VERSION: ${DEV_VERSION}"
           if [ -z "$DEV_VERSION" ]
           then
