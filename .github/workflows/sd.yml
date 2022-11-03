@@ -82,7 +82,7 @@ jobs:
         id: get-oneflow-version
         run: |
           curl "${{ matrix.image.ONEFLOW_PIP_INDEX }}"
-          DEV_VERSION=$(curl "https://staging.oneflow.info/branch/release/debug-sd-conv/cu116" | rg '/(oneflow-\d.+?)%2B(.+?)-cp' -or '$1+${2}')
+          DEV_VERSION=$(curl "https://staging.oneflow.info/branch/release/debug-sd-conv/cu116" | rg '/(oneflow-\d.+?)%2B(.+?)-cp' -or '$1+${2}' | head -n 1)
           echo "DEV_VERSION: ${DEV_VERSION}"
           if [ -z "$DEV_VERSION" ]
           then
