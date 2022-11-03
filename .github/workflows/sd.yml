@@ -77,6 +77,17 @@ jobs:
         run: |
           echo ACR_TAG="$REGISTRY/$NAMESPACE/$IMAGE:$TAG" >> $GITHUB_ENV
           echo DOCKERHUB_TAG="oneflowinc/$IMAGE:$TAG" >> $GITHUB_ENV
+      - name: Get OneFlow version
+        id: get-oneflow-version
+        run: |
+          curl "${{ matrix.image.ONEFLOW_PIP_INDEX }}"
+          DEV_VERSION=$(curl -s ${{ matrix.image.ONEFLOW_PIP_INDEX }} | grep -oh '[0-9.]*dev[0-9]*' | head -n 1)
+          echo "DEV_VERSION: ${DEV_VERSION}"
+          if [ -z "$DEV_VERSION" ]
+          then
+            exit 1
+          fi
+          echo "ONEFLOW_PACKAGE_NAME="oneflow==${DEV_VERSION}"" >> $GITHUB_OUTPUT
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
@@ -90,6 +101,9 @@ jobs:
           build-args: |
             BASE_IMAGE=${{matrix.image.BASE_IMAGE}}
             ONEFLOW_PIP_INDEX=${{matrix.image.ONEFLOW_PIP_INDEX}}
+            ONEFLOW_DIFFUSERS_REF=oneflow-fork
+            ONEFLOW_TRANSFORMS_REF=oneflow-fork
+            ONEFLOW_PACKAGE_NAME=${{steps.get-oneflow-version.ONEFLOW_PACKAGE_NAME}}
           file: sd/Dockerfile
       - name: Push image to ACR
         run: |
