@@ -1,3 +1,4 @@
+import argparse
 import oneflow as torch
 from diffusers import OneFlowStableDiffusionPipeline
 
@@ -10,8 +11,18 @@ pipe = OneFlowStableDiffusionPipeline.from_pretrained(
 
 pipe = pipe.to("cuda")
 
-prompt = "a photo of an astronaut riding a horse on mars"
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Simple demo of image generation.")
+    parser.add_argument(
+        "--prompt", type=str, default="a photo of an astronaut riding a horse on mars"
+    )
+    args = parser.parse_args()
+    return args
+
+
+args = parse_args()
 with torch.autocast("cuda"):
-    images = pipe(prompt).images
+    images = pipe(args.prompt).images
     for i, image in enumerate(images):
-        image.save(f"{prompt}-of-{i}.png")
+        image.save(f"{args.prompt[:20]}-{i}.png")
