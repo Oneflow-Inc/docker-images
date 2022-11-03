@@ -9,4 +9,4 @@ ADD diffusers /src/diffusers
 ADD transformers /src/transformers
 RUN pip install -e /src/diffusers[oneflow] && pip install -e /src/transformers
 RUN mkdir /demos
-COPY ./sd/oneflow-t2i.py /demos
+COPY ./oneflow-t2i.py /demos
