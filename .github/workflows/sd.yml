@@ -27,17 +27,17 @@ jobs:
           - {
               BASE_IMAGE: "nvcr.io/nvidia/pytorch:22.09-py3",
               suffix: "cu112",
-              ONEFLOW_PIP_INDEX: "https://staging.oneflow.info/branch/debug-sd-conv/cu112",
+              ONEFLOW_PIP_INDEX: "https://staging.oneflow.info/branch/release/debug-sd-conv/cu112",
             }
           - {
               BASE_IMAGE: "nvcr.io/nvidia/pytorch:22.09-py3",
               suffix: "cu116",
-              ONEFLOW_PIP_INDEX: "https://staging.oneflow.info/branch/debug-sd-conv/cu116",
+              ONEFLOW_PIP_INDEX: "https://staging.oneflow.info/branch/release/debug-sd-conv/cu116",
             }
           - {
               BASE_IMAGE: "nvcr.io/nvidia/pytorch:22.09-py3",
               suffix: "cu118",
-              ONEFLOW_PIP_INDEX: "https://staging.oneflow.info/branch/debug-sd-conv/cu118",
+              ONEFLOW_PIP_INDEX: "https://staging.oneflow.info/branch/release/debug-sd-conv/cu118",
             }
 
     env:
@@ -47,7 +47,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
+      - name: Checkout Oneflow-Inc/diffusers
+        uses: actions/checkout@v2
+        with:
+          repository: Oneflow-Inc/diffusers
+          ref: oneflow-fork
+          path: diffusers
+      - name: Checkout Oneflow-Inc/transformers
+        uses: actions/checkout@v2
+        with:
+          repository: Oneflow-Inc/transformers
+          ref: oneflow-fork
+          path: transformers
       # 1.1 Login to ACR
       - name: Login to ACR with the AccessKey pair
         uses: aliyun/acr-login@v1
