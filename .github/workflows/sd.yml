@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "sd"
+      - "sd-from-checkout"
   workflow_dispatch:
 # Environment variables available to all jobs and steps in this workflow.
 env:
@@ -47,18 +48,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      # - name: Checkout Oneflow-Inc/diffusers
-      #   uses: actions/checkout@v2
-      #   with:
-      #     repository: Oneflow-Inc/diffusers
-      #     ref: oneflow-fork
-      #     path: diffusers
-      # - name: Checkout Oneflow-Inc/transformers
-      #   uses: actions/checkout@v2
-      #   with:
-      #     repository: Oneflow-Inc/transformers
-      #     ref: oneflow-fork
-      #     path: transformers
+      - name: Checkout Oneflow-Inc/diffusers
+        uses: actions/checkout@v2
+        with:
+          repository: Oneflow-Inc/diffusers
+          ref: oneflow-fork
+          path: sd/diffusers
+      - name: Checkout Oneflow-Inc/transformers
+        uses: actions/checkout@v2
+        with:
+          repository: Oneflow-Inc/transformers
+          ref: oneflow-fork
+          path: sd/transformers
       - run: ls -al
       - run: sudo apt-get install ripgrep
       # 1.1 Login to ACR
@@ -103,10 +104,8 @@ jobs:
           build-args: |
             BASE_IMAGE=${{matrix.image.BASE_IMAGE}}
             ONEFLOW_PIP_INDEX=${{matrix.image.ONEFLOW_PIP_INDEX}}
-            ONEFLOW_DIFFUSERS_REF=oneflow-fork
-            ONEFLOW_TRANSFORMS_REF=oneflow-fork
             ONEFLOW_PACKAGE_NAME=${{steps.get-oneflow-version.outputs.ONEFLOW_PACKAGE_NAME}}
-          file: sd/Dockerfile
+          context: sd
       - name: Push image to ACR
         run: |
           docker push "${{ env.ACR_TAG }}"
