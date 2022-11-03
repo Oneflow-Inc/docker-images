@@ -103,7 +103,7 @@ jobs:
             ONEFLOW_PIP_INDEX=${{matrix.image.ONEFLOW_PIP_INDEX}}
             ONEFLOW_DIFFUSERS_REF=oneflow-fork
             ONEFLOW_TRANSFORMS_REF=oneflow-fork
-            ONEFLOW_PACKAGE_NAME=${{steps.get-oneflow-version.ONEFLOW_PACKAGE_NAME}}
+            ONEFLOW_PACKAGE_NAME=${{steps.get-oneflow-version.outputs.ONEFLOW_PACKAGE_NAME}}
           file: sd/Dockerfile
       - name: Push image to ACR
         run: |
