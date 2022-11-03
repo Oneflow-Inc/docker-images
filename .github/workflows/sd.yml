@@ -47,18 +47,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Checkout Oneflow-Inc/diffusers
-        uses: actions/checkout@v2
-        with:
-          repository: Oneflow-Inc/diffusers
-          ref: oneflow-fork
-          path: diffusers
-      - name: Checkout Oneflow-Inc/transformers
-        uses: actions/checkout@v2
-        with:
-          repository: Oneflow-Inc/transformers
-          ref: oneflow-fork
-          path: transformers
+      # - name: Checkout Oneflow-Inc/diffusers
+      #   uses: actions/checkout@v2
+      #   with:
+      #     repository: Oneflow-Inc/diffusers
+      #     ref: oneflow-fork
+      #     path: diffusers
+      # - name: Checkout Oneflow-Inc/transformers
+      #   uses: actions/checkout@v2
+      #   with:
+      #     repository: Oneflow-Inc/transformers
+      #     ref: oneflow-fork
+      #     path: transformers
       - run: ls -al
       # 1.1 Login to ACR
       - name: Login to ACR with the AccessKey pair
