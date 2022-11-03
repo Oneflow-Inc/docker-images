@@ -76,7 +76,7 @@ jobs:
           cache-to: type=inline
           target: ${{ matrix.build-target }}
           build-args: |
-            ONEFLOW_PIP_INDEX=${{matrix.image.BASE_IMAGE}}
+            BASE_IMAGE=${{matrix.image.BASE_IMAGE}}
             ONEFLOW_PIP_INDEX=${{matrix.image.ONEFLOW_PIP_INDEX}}
           file: sd/Dockerfile
       - name: Push image to ACR
