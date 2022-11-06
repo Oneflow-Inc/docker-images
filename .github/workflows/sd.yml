@@ -28,17 +28,17 @@ jobs:
           - {
               BASE_IMAGE: "nvcr.io/nvidia/pytorch:22.09-py3",
               suffix: "cu112",
-              ONEFLOW_PIP_INDEX: "https://staging.oneflow.info/branch/release/debug-sd-conv/cu112",
+              ONEFLOW_PIP_INDEX: "https://staging.oneflow.info/branch/release/debug-sd-conv-gn-geglu/cu112",
             }
           - {
               BASE_IMAGE: "nvcr.io/nvidia/pytorch:22.09-py3",
               suffix: "cu116",
-              ONEFLOW_PIP_INDEX: "https://staging.oneflow.info/branch/release/debug-sd-conv/cu116",
+              ONEFLOW_PIP_INDEX: "https://staging.oneflow.info/branch/release/debug-sd-conv-gn-geglu/cu116",
             }
           - {
               BASE_IMAGE: "nvcr.io/nvidia/pytorch:22.09-py3",
               suffix: "cu118",
-              ONEFLOW_PIP_INDEX: "https://staging.oneflow.info/branch/release/debug-sd-conv/cu118",
+              ONEFLOW_PIP_INDEX: "https://staging.oneflow.info/branch/release/debug-sd-conv-gn-geglu/cu118",
             }
 
     env:
@@ -52,7 +52,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: Oneflow-Inc/diffusers
-          ref: f6ac84a55d1188891d5ca1bd44162ba4e9f1a1fc
+          ref: debug-sd-conv-gn-geglu
           path: sd/diffusers
       - name: Checkout Oneflow-Inc/transformers
         uses: actions/checkout@v2
