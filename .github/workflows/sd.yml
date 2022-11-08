@@ -52,7 +52,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: Oneflow-Inc/diffusers
-          ref: debug-sd-conv-gn-geglu
+          ref: dc014043e96dc8ddcfaa657056cc40c3b6a0dce1
           path: sd/diffusers
       - name: Checkout Oneflow-Inc/transformers
         uses: actions/checkout@v2
