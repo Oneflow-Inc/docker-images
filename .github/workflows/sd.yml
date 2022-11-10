@@ -52,7 +52,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: Oneflow-Inc/diffusers
-          ref: d6c7a547f1fbb82819e15c5202e52bb78e813cd5
+          ref: e866174793232b3586f8c5475b8f919e9c5d52d1
           path: sd/diffusers
       - name: Checkout Oneflow-Inc/transformers
         uses: actions/checkout@v2
