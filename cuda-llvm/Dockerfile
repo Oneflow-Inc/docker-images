@@ -21,7 +21,7 @@ RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     rm cmake-3.22.0-linux-x86_64.sh
 
 FROM dev-base as devcontainer-llvm
-ARG LLVM_VERSION=13
+ARG LLVM_VERSION=15
 WORKDIR /workspace
 RUN --mount=type=cache,id=apt-dev,target=/var/cache/apt \
     apt-get update && apt-get install -y --no-install-recommends \
