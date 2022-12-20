@@ -25,12 +25,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tag-suffix: ["llvm15_cuda11.2", "llvm15_cuda10.1", ]
+        tag-suffix: ["llvm15_cuda11.2"]
         include:
           - tag-suffix: "llvm15_cuda11.2"
             BASE_IMAGE: "nvidia/cuda:11.2.2-cudnn8-devel-ubuntu20.04"
-          - tag-suffix: "llvm15_cuda10.1"
-            BASE_IMAGE: "nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04"
     env:
       DOCKER_REPO: "${{ matrix.tag-suffix }}"
       BASE_IMAGE: "${{ matrix.BASE_IMAGE }}"
