@@ -24,7 +24,7 @@ jobs:
           [
             1.9.0-cuda10.2-cudnn7-runtime,
             1.10.0-cuda11.3-cudnn8-runtime,
-            1.13.0-cuda11.7-cudnn8-runtime,
+            1.13.1-cuda11.6-cudnn8-runtime,
           ]
     env:
       DOCKER_REPO: test-with-pytorch-${{matrix.pytorch-tag}}
