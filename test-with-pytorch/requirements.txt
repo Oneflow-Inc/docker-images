@@ -5,7 +5,7 @@ furo==2021.4.11b34
 sphinx-copybutton==0.5.0
 # dependencies above must be identical to docs/requirements.txt
 pycocotools
-opencv-python==4.2.0.34
+opencv-python>=4.5.0
 scipy
 # oneflow
 protobuf>=3.9.2, <4.0
