@@ -86,7 +86,7 @@ jobs:
             CUDA_VERSION=${{matrix.CUDA_VERSION}}
             ONEFLOW_PIP_INDEX=${{matrix.ONEFLOW_PIP_INDEX}}
             ONEFLOW_PACKAGE_NAME=${{env.ONEFLOW_PACKAGE_NAME}}
-          file: oneflow/Dockerfile
+          context: oneflow
       - name: Push image to ACR
         run: |
           docker push "${{ env.ACR_TAG }}"
