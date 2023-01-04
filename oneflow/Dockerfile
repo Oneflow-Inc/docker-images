@@ -71,7 +71,7 @@ RUN case ${TARGETPLATFORM} in \
     curl -fsSL -v -o ~/miniconda.sh -O  "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-${MINICONDA_ARCH}.sh"
 COPY requirements.txt .
 RUN chmod +x ~/miniconda.sh && \
-    ~/miniconda.sh -b -p /opt/conda && \
+    bash ~/miniconda.sh -b -p /opt/conda && \
     rm ~/miniconda.sh && \
     /opt/conda/bin/conda install -y python=${PYTHON_VERSION} cmake conda-build pyyaml numpy ipython && \
     /opt/conda/bin/python -mpip install -r requirements.txt && \
