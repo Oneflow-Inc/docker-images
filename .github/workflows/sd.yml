@@ -3,8 +3,10 @@ name: Build OneFlow Stable Diffusion
 on:
   push:
     branches:
-      - "sd"
-      - "sd-from-checkout"
+      - main
+    paths:
+      - ".github/workflows/sd.yml"
+      - "sd/**"
   workflow_dispatch:
 # Environment variables available to all jobs and steps in this workflow.
 env:
