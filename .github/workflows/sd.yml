@@ -20,18 +20,13 @@ concurrency:
 
 jobs:
   build-oneflow:
-    name: "Build sd"
+    name: "Build sd ${{ matrix.image.suffix }}"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       max-parallel: 5
       matrix:
         image:
-          - {
-              BASE_IMAGE: "nvcr.io/nvidia/pytorch:22.09-py3",
-              suffix: "cu112",
-              ONEFLOW_PIP_INDEX: "https://staging.oneflow.info/branch/master/cu112",
-            }
           - {
               BASE_IMAGE: "nvcr.io/nvidia/pytorch:22.09-py3",
               suffix: "cu116",
