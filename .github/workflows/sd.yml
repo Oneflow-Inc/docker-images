@@ -54,14 +54,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: Oneflow-Inc/diffusers
-          ref: c7e9d6e51f40eb2af8461f8db75924f697afc716
+          ref: 45bd0c03c5010654184b8e006dbd1f52f4a863ae
           path: sd/diffusers
-      - name: Checkout Oneflow-Inc/transformers
-        uses: actions/checkout@v2
-        with:
-          repository: Oneflow-Inc/transformers
-          ref: oneflow-fork
-          path: sd/transformers
       - run: ls -al
       - run: sudo apt-get install ripgrep
       # 1.1 Login to ACR
