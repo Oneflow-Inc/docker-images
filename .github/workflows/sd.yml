@@ -44,7 +44,7 @@ jobs:
             }
 
     env:
-      IMAGE: oneflow-sd
+      IMAGE: onediff
       TAG: ${{ matrix.image.suffix }}
       DOCKER_BUILDKIT: 1
     steps:
