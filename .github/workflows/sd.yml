@@ -54,8 +54,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: Oneflow-Inc/diffusers
-          ref: 8e945c06bf8199d26fbfd3f5674427b6762e9b32
-          path: sd/diffusers
+          ref: d544353e2a9b9537a4a2c0f78bd7c0d9f32a783b
+          path: sd/onediff
       - run: ls -al
       - run: sudo apt-get install ripgrep
       # 1.1 Login to ACR
