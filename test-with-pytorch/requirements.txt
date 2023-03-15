@@ -20,3 +20,4 @@ torchvision
 pygal
 scikit-learn==1.0.2
 pynvml
+diffusers==0.12.1
