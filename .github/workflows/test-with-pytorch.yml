@@ -1,6 +1,12 @@
 name: Build test-with-pytorch
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/test-with-pytorch.yml"
+      - "test-with-pytorch/**"
   release:
     types: [created]
   workflow_dispatch:
