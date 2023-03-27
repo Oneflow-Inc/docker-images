@@ -54,7 +54,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: Oneflow-Inc/diffusers
-          ref: 2af6fafc47b90ad86c0e8b762a3f560ef89eec07
+          ref: 4690d6388abb603be87a96c0c5790e95d71052a4
           path: sd/onediff
       - run: ls -al
       - run: sudo apt-get install ripgrep
