@@ -28,9 +28,6 @@ jobs:
       max-parallel: 5
       matrix:
         include:
-          - tag-suffix: "cuda10.2"
-            CUDA_VERSION: "10.2"
-            ONEFLOW_PIP_INDEX: https://staging.oneflow.info/branch/master/cu102
           - tag-suffix: "cuda11.7"
             CUDA_VERSION: "11.7"
             ONEFLOW_PIP_INDEX: https://staging.oneflow.info/branch/master/cu117
