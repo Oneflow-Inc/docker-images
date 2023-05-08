@@ -1,0 +1,1 @@
+FROM ${PYTORCH_TAG}
