@@ -1,0 +1,48 @@
+name: Build nginx
+
+on:
+  pull_request:
+    types: [opened, labeled, unlabeled, synchronize]
+
+env:
+  REGION_ID: cn-beijing
+  ACR_REGISTRY: registry.cn-beijing.aliyuncs.com
+  ACR_NAMESPACE: oneflow
+  DOCKER_HUB_NAMESPACE: oneflowinc
+
+jobs:
+  build-nginx:
+    name: "Build test with Nginx"
+    runs-on: ubuntu-latest
+    environment: production
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+    env:
+      DOCKER_REPO: nginx
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Login to ACR with the AccessKey pair
+        uses: aliyun/acr-login@v1
+        with:
+          login-server: https://registry.${{env.REGION_ID}}.aliyuncs.com
+          username: "${{ secrets.ACR_USERNAME }}"
+          password: "${{ secrets.ACR_PASSWORD }}"
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: |
+            ${{ env.DOCKER_HUB_NAMESPACE }}/${{ env.DOCKER_REPO }}:latest
+            ${{ env.DOCKER_HUB_NAMESPACE }}/${{ env.DOCKER_REPO }}:${{ github.sha }}
+            ${{ env.ACR_REGISTRY }}/${{ env.ACR_NAMESPACE }}/${{ env.DOCKER_REPO }}:latest
+            ${{ env.ACR_REGISTRY }}/${{ env.ACR_NAMESPACE }}/${{ env.DOCKER_REPO }}:${{ github.sha }}
+          cache-from: type=registry,ref=${{ env.DOCKER_HUB_NAMESPACE }}/${{ env.DOCKER_REPO }}:latest
+          cache-to: type=inline
+          context: nginx
