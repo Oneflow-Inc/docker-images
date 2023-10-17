@@ -30,7 +30,7 @@ jobs:
         include:
           - tag-suffix: "cuda11.7"
             CUDA_VERSION: "11.7"
-            ONEFLOW_PIP_INDEX: https://staging.oneflow.info/branch/master/cu117
+            ONEFLOW_PIP_INDEX: https://oneflow-staging.oss-cn-beijing.aliyuncs.com/branch/master/cu117
     env:
       IMAGE: oneflow
       TAG: nightly-${{ matrix.tag-suffix }}
