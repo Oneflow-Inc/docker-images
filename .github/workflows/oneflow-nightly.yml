@@ -32,7 +32,7 @@ jobs:
             CUDA_VERSION: "11.8"
             ONEFLOW_PIP_INDEX: https://oneflow-staging.oss-cn-beijing.aliyuncs.com/branch/master/cu118
           - tag-suffix: "cuda12.1"
-            CUDA_VERSION: "11.8"
+            CUDA_VERSION: "12.1"
             ONEFLOW_PIP_INDEX: https://oneflow-staging.oss-cn-beijing.aliyuncs.com/branch/master/cu121
     env:
       IMAGE: oneflow
