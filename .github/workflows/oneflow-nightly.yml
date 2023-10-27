@@ -12,7 +12,9 @@ on:
     paths:
       - ".github/workflows/oneflow-nightly.yml"
       - "oneflow/**"
-
+concurrency:
+  group: oneflow-nightly-${{ github.ref }}
+  cancel-in-progress: true
 # Environment variables available to all jobs and steps in this workflow.
 env:
   REGION_ID: cn-beijing
