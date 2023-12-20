@@ -26,15 +26,13 @@ jobs:
       fail-fast: false
       max-parallel: 5
       matrix:
-        pytorch-tag:
-          [
-            1.9.0-cuda10.2-cudnn7-runtime,
-            1.10.0-cuda11.3-cudnn8-runtime,
-            1.13.1-cuda11.6-cudnn8-runtime,
-            2.1.2-cuda12.1-cudnn8-runtime,
-          ]
+        image:
+          - { pytorch-tag: "1.9.0-cuda10.2-cudnn7-runtime", D_OS: "18.04" }
+          - { pytorch-tag: "1.10.0-cuda11.3-cudnn8-runtime", D_OS: "18.04" }
+          - { pytorch-tag: "1.13.1-cuda11.6-cudnn8-runtime", D_OS: "18.04" }
+          - { pytorch-tag: "2.1.2-cuda12.1-cudnn8-runtime", D_OS: "20.04" }
     env:
-      DOCKER_REPO: test-with-pytorch-${{matrix.pytorch-tag}}
+      DOCKER_REPO: test-with-pytorch-${{matrix.image.pytorch-tag}}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -62,4 +60,5 @@ jobs:
           cache-to: type=inline
           context: test-with-pytorch
           build-args: |
-            PYTORCH_TAG=${{matrix.pytorch-tag}}
+            PYTORCH_TAG=${{matrix.image.pytorch-tag}}
+            D_OS=${{matrix.image.D_OS}}
