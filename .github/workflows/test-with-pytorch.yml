@@ -29,22 +29,22 @@ jobs:
         image:
           - {
               pytorch-tag: "1.9.0-cuda10.2-cudnn7-runtime",
-              D_OS: "18.04",
+              D_OS: "ubuntu18.04",
               D_OFED_VERSION: "5.0-2.1.8.0",
             }
           - {
               pytorch-tag: "1.10.0-cuda11.3-cudnn8-runtime",
-              D_OS: "18.04",
+              D_OS: "ubuntu18.04",
               D_OFED_VERSION: "5.0-2.1.8.0",
             }
           - {
               pytorch-tag: "1.13.1-cuda11.6-cudnn8-runtime",
-              D_OS: "18.04",
+              D_OS: "ubuntu18.04",
               D_OFED_VERSION: "5.0-2.1.8.0",
             }
           - {
               pytorch-tag: "2.1.2-cuda12.1-cudnn8-runtime",
-              D_OS: "20.04",
+              D_OS: "ubuntu20.04",
               D_OFED_VERSION: "5.3-1.0.0.1",
             }
     env:
