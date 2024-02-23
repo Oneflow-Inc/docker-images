@@ -11,6 +11,10 @@ on:
         description: ""
         default: "alpine-git"
         required: false
+      maximize-disk:
+        description: ""
+        default: "1"
+        required: false
 # Environment variables available to all jobs and steps in this workflow.
 env:
   REGION_ID: cn-beijing
@@ -33,6 +37,7 @@ jobs:
     steps:
       - name: Maximize build space
         uses: easimon/maximize-build-space@master
+        if: inputs.maximize-disk == '1'
         with:
           root-reserve-mb: 512
           swap-size-mb: 1024
